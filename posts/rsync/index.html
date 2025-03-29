@@ -1,0 +1,261 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=blog/livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Rsync-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="
+
+remote sync 远程同步
+
+与FTP或scp不同的是，rsync会检查发送方和接收方已有的文件，仅传输有变动的部分(默认使用文件大小和修改时间决定文件是否需要更新)。
+
+
+
+安装
+
+sudo pacman -S rsync
+
+
+
+基本用法
+rsync -r source destination #r表示递归，必须要此参数，否则rsync启动不成功
+rsync -r source1 source2 destination #source1 source2都会被同步到destination
+
+rsync -a source destination #a除了可以同步以外，还可以同步元信息，比如修改时间，权限等
+
+rsync -anv sour/ destination #-n --dry-run模拟执行的结果
+
+rsync -av --delete source/ destination #将删除只存在于目标目录，不存在于源目录的文件
+
+#--exclude 排除文件
+rsync -av --exclude=&#39;*.txt&#39; source/ destination 
+rsync -av --exclude=&#39;.*&#39; source/ destination 
+rsync -av --exclude=&#39;file1.txt&#39; --exclude=&#39;dir1/*&#39; source/ destination
+rsync -av --exclude={&#39;file1.txt&#39;.&#39;dir1/*&#39;} source destination
+rsync -av --exclude=&#39;exclude-file.txt&#39; source/ destination 
+
+#--include 指定必须同步的文件模式
+rsync -av --include=&#39;*.txt&#39; --exclude=&#39;*&#39; source/ destination 
+
+#ssh协议
+rsync -av source/ username@remote_host:destination 
+rsync -av username@remote_host:source/ destination
+#若ssh有附加参数
+rsync -av --progress -e &#39;ssh -p 2244&#39; source/ user@remote_host:destination
+
+#rsync协议
+#如果另一台服务器安装了rsync守护程序
+rsync -av source/ 192.168.10.254::module/destination 
+#module是rsync守护程序制定的一个资源名，有管理元分配，
+#rsync rsync://192.168.10.254 可以查看rsync守护程序所有的module列表
+
+#增量备份
+rsync -av --progress --delete --link-dest /compare/path /source/path /target/path
+#--link-dest 指定基准目录compare/path，源目录和基准目录比较，找出变动的文件，将他们拷贝到目标目录/target/path中，那些没变动的目录会生成硬链接。
+#这个命令第一次是全量备份，后面对是增量备份
+
+" />
+  <meta name="author" content="TongXu-Server" /><link rel="preload stylesheet" as="style" href="http://localhost:1313/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="http://localhost:1313/blog/theme.png" />
+
+  
+
+  
+
+  <script
+    defer
+    src="http://localhost:1313/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:1313/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:1313/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.145.0">
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="http://localhost:1313/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Rsync</h1><div class="text-xs antialiased opacity-60"><time>Mar 19, 2025</time></div></header>
+
+  <section><ul>
+<li>
+<p>remote sync 远程同步</p>
+<ul>
+<li>与FTP或scp不同的是，rsync会检查发送方和接收方已有的文件，仅传输有变动的部分(默认使用文件大小和修改时间决定文件是否需要更新)。</li>
+</ul>
+</li>
+<li>
+<p>安装</p>
+<ul>
+<li>sudo pacman -S rsync</li>
+</ul>
+</li>
+<li>
+<p>基本用法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>rsync -r source destination <span style="color:#75715e">#r表示递归，必须要此参数，否则rsync启动不成功</span>
+</span></span><span style="display:flex;"><span>rsync -r source1 source2 destination <span style="color:#75715e">#source1 source2都会被同步到destination</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rsync -a source destination <span style="color:#75715e">#a除了可以同步以外，还可以同步元信息，比如修改时间，权限等</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rsync -anv sour/ destination <span style="color:#75715e">#-n --dry-run模拟执行的结果</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rsync -av --delete source/ destination <span style="color:#75715e">#将删除只存在于目标目录，不存在于源目录的文件</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#--exclude 排除文件</span>
+</span></span><span style="display:flex;"><span>rsync -av --exclude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*.txt&#39;</span> source/ destination 
+</span></span><span style="display:flex;"><span>rsync -av --exclude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;.*&#39;</span> source/ destination 
+</span></span><span style="display:flex;"><span>rsync -av --exclude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;file1.txt&#39;</span> --exclude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;dir1/*&#39;</span> source/ destination
+</span></span><span style="display:flex;"><span>rsync -av --exclude<span style="color:#f92672">={</span><span style="color:#e6db74">&#39;file1.txt&#39;</span>.<span style="color:#e6db74">&#39;dir1/*&#39;</span><span style="color:#f92672">}</span> source destination
+</span></span><span style="display:flex;"><span>rsync -av --exclude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;exclude-file.txt&#39;</span> source/ destination 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#--include 指定必须同步的文件模式</span>
+</span></span><span style="display:flex;"><span>rsync -av --include<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*.txt&#39;</span> --exclude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*&#39;</span> source/ destination 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ssh协议</span>
+</span></span><span style="display:flex;"><span>rsync -av source/ username@remote_host:destination 
+</span></span><span style="display:flex;"><span>rsync -av username@remote_host:source/ destination
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#若ssh有附加参数</span>
+</span></span><span style="display:flex;"><span>rsync -av --progress -e <span style="color:#e6db74">&#39;ssh -p 2244&#39;</span> source/ user@remote_host:destination
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#rsync协议</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#如果另一台服务器安装了rsync守护程序</span>
+</span></span><span style="display:flex;"><span>rsync -av source/ 192.168.10.254::module/destination 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#module是rsync守护程序制定的一个资源名，有管理元分配，</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#rsync rsync://192.168.10.254 可以查看rsync守护程序所有的module列表</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#增量备份</span>
+</span></span><span style="display:flex;"><span>rsync -av --progress --delete --link-dest /compare/path /source/path /target/path
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#--link-dest 指定基准目录compare/path，源目录和基准目录比较，找出变动的文件，将他们拷贝到目标目录/target/path中，那些没变动的目录会生成硬链接。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#这个命令第一次是全量备份，后面对是增量备份</span>
+</span></span></code></pre></div></li>
+</ul>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="http://localhost:1313/blog/posts/rust/"
+      ><span>Rust</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:1313/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

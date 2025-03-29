@@ -1,0 +1,236 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=blog/livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Awk-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="awk
+
+语法
+
+awk options `pattern {action}` file
+
+options
+
+-F &lt;分隔符&gt; 或 &ndash;field-separator=&lt;分隔符&gt;: 指定输入字段的分隔符，默认是空格，使用这个选项可以指定不同于默认分隔符的字段分隔符。
+-v &lt;变量名&gt;=&lt;值&gt; ：设置awk内部变量的值，可以使用该选项将外部值传递给awk脚本中的变量
+-f &lt;脚本文件&gt; 指定一个包含awk脚本的文件，这样可以在文件中编辑较大的awk脚本，然后通过-f选项将其加载。
+-V 或&ndash;version 显示awk的版本信息
+-h 或 &ndash;help 显示awk的帮助信息，包括选项和用法示例。
+
+
+例子
+
+awk &#39;{print}&#39; file #打印整行
+awk &#39;{print $1,$2}&#39; file  #打印特定列
+awk -F &#39;,&#39; &#39;{print $1,$2}&#39; file #使用分隔符指定列
+awk &#39;{print NR,$1}&#39; file #打印行数
+awk &#39;/pattern/{print NR,$0}&#39; file  #打印满足条件的行
+awk &#39;{sum &#43;= $1} END {print sum}&#39; file  #计算列的总和
+awk &#39;max &lt; $1 {max = $1} END {print max}&#39; file  #打印最大值
+awk &#39;{printf &#34;%-10s %-10s\n&#34;,$1,$2}&#39; file  #格式化输出
+
+基本用法
+
+awk &#39;{[pattern] action}&#39; {filenames}
+awk &#39;{print $1,$4}&#39; log.txt  #按空格或tab键分割，输出文件中的1,4项
+awk &#39;{printf &#34;%-8s %-10s\n&#34;,$1,$4}&#39; log.txt #格式化输出1,4项
+awk -F, &#39;{print $1,$4}&#39; log.txt #使用逗号进行分割
+awk -F &#39;[ ,:]&#39; &#39;{print $1,$2}&#39; log.txt #使用多个分隔符，先使用空格再使用，再使用:进行分割
+awk -v a=1 &#39;{print $1,$1&#43;a}&#39; log.txt  #设置变量
+
+运算符
+
+awk &#39;$1&gt;2&#39; log.txt
+" />
+  <meta name="author" content="TongXu-Server" /><link rel="preload stylesheet" as="style" href="http://localhost:1313/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="http://localhost:1313/blog/theme.png" />
+
+  
+
+  
+
+  <script
+    defer
+    src="http://localhost:1313/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:1313/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:1313/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.145.0">
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="http://localhost:1313/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Awk</h1><div class="text-xs antialiased opacity-60"><time>Jan 26, 2025</time></div></header>
+
+  <section><h3 id="awk">awk</h3>
+<ul>
+<li>语法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk options <span style="color:#e6db74">`</span>pattern <span style="color:#f92672">{</span>action<span style="color:#f92672">}</span><span style="color:#e6db74">`</span> file
+</span></span></code></pre></div><ul>
+<li>options
+<ul>
+<li>-F &lt;分隔符&gt; 或 &ndash;field-separator=&lt;分隔符&gt;: 指定输入字段的分隔符，默认是空格，使用这个选项可以指定不同于默认分隔符的字段分隔符。</li>
+<li>-v &lt;变量名&gt;=&lt;值&gt; ：设置awk内部变量的值，可以使用该选项将外部值传递给awk脚本中的变量</li>
+<li>-f &lt;脚本文件&gt; 指定一个包含awk脚本的文件，这样可以在文件中编辑较大的awk脚本，然后通过-f选项将其加载。</li>
+<li>-V 或&ndash;version 显示awk的版本信息</li>
+<li>-h 或 &ndash;help 显示awk的帮助信息，包括选项和用法示例。</li>
+</ul>
+</li>
+<li>例子</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print}&#39;</span> file <span style="color:#75715e">#打印整行</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print $1,$2}&#39;</span> file  <span style="color:#75715e">#打印特定列</span>
+</span></span><span style="display:flex;"><span>awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{print $1,$2}&#39;</span> file <span style="color:#75715e">#使用分隔符指定列</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print NR,$1}&#39;</span> file <span style="color:#75715e">#打印行数</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;/pattern/{print NR,$0}&#39;</span> file  <span style="color:#75715e">#打印满足条件的行</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{sum += $1} END {print sum}&#39;</span> file  <span style="color:#75715e">#计算列的总和</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;max &lt; $1 {max = $1} END {print max}&#39;</span> file  <span style="color:#75715e">#打印最大值</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{printf &#34;%-10s %-10s\n&#34;,$1,$2}&#39;</span> file  <span style="color:#75715e">#格式化输出</span>
+</span></span></code></pre></div><ul>
+<li>基本用法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{[pattern] action}&#39;</span> <span style="color:#f92672">{</span>filenames<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print $1,$4}&#39;</span> log.txt  <span style="color:#75715e">#按空格或tab键分割，输出文件中的1,4项</span>
+</span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{printf &#34;%-8s %-10s\n&#34;,$1,$4}&#39;</span> log.txt <span style="color:#75715e">#格式化输出1,4项</span>
+</span></span><span style="display:flex;"><span>awk -F, <span style="color:#e6db74">&#39;{print $1,$4}&#39;</span> log.txt <span style="color:#75715e">#使用逗号进行分割</span>
+</span></span><span style="display:flex;"><span>awk -F <span style="color:#e6db74">&#39;[ ,:]&#39;</span> <span style="color:#e6db74">&#39;{print $1,$2}&#39;</span> log.txt <span style="color:#75715e">#使用多个分隔符，先使用空格再使用，再使用:进行分割</span>
+</span></span><span style="display:flex;"><span>awk -v a<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#e6db74">&#39;{print $1,$1+a}&#39;</span> log.txt  <span style="color:#75715e">#设置变量</span>
+</span></span></code></pre></div><ul>
+<li>运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;$1&gt;2&#39;</span> log.txt
+</span></span></code></pre></div></section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:1313/blog/posts/mysql/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Mysql</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="http://localhost:1313/blog/posts/git/"
+      ><span>Git</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:1313/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

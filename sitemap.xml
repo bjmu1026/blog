@@ -2,29 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://bjmu1026.github.io/blog/</loc>
+    <loc>http://localhost:1313/blog/posts/</loc>
     <lastmod>2025-03-19T13:36:49+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/posts/</loc>
+    <loc>http://localhost:1313/blog/posts/rsync/</loc>
     <lastmod>2025-03-19T13:36:49+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/posts/rsync/</loc>
+    <loc>http://localhost:1313/blog/</loc>
     <lastmod>2025-03-19T13:36:49+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/posts/rust/</loc>
+    <loc>http://localhost:1313/blog/posts/rust/</loc>
     <lastmod>2025-02-23T21:57:33+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/posts/mysql/</loc>
+    <loc>http://localhost:1313/blog/posts/mysql/</loc>
     <lastmod>2025-02-23T00:25:21+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/posts/awk/</loc>
+    <loc>http://localhost:1313/blog/posts/awk/</loc>
     <lastmod>2025-01-26T12:26:47+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/posts/git/</loc>
+    <loc>http://localhost:1313/blog/posts/git/</loc>
     <lastmod>2025-01-18T16:33:21+08:00</lastmod>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/categories/</loc>
+    <loc>http://localhost:1313/blog/categories/</loc>
   </url><url>
-    <loc>https://bjmu1026.github.io/blog/tags/</loc>
+    <loc>http://localhost:1313/blog/tags/</loc>
   </url>
 </urlset>
