@@ -84,7 +84,7 @@ CREATE USER &#39;username&#39;@&#39;another_host&#39; identified by &#39;passwd&
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.145.0">
+  <meta name="generator" content="Hugo 0.147.7">
   <meta itemprop="name" content="Mysql">
   <meta itemprop="description" content="mysql 安装 #安装mysql sudo pacman -S mysql #初始化mysql sudo mysqld --initialize --user=mysql --basedir=/usr --datadir=/var/lib/mysql #使用生成的随机密码登陆 mysql -u root -p&#34;[passwd]&#34; #修改root密码 mysql&gt; alter user &#39;root&#39;@&#39;localhost&#39; identified by &#34;newpasswd&#34;; 用户管理 #创建用户 CREATE USER &#39;USERNAME&#39;@&#34;HOST&#34; IDENTIFIED BY &#39;PASSWD&#39;; #授权 privileges 包括all privileges, select, insert, update, delete等 #database_name.* 对某个数据库的所有表授权， database_name.table_name可以指定表进行授权。 GRANT privileges ON database_name.* TO &#39;username&#39;@&#39;host&#39;; #刷新授权 FLUSH PRIVILEGES; #查看用户的权限 SHOW GRANTS FOR &#34;username&#34;@&#34;host&#34;; #撤销权限 REVOKE privileges ON database_name.* FROM &#39;username&#39;@&#39;host&#39;; #删除用户 DROP USER &#39;username&#39;@&#39;host&#39;; #修改用户主机 DROP USER &#39;username&#39;@&#39;host&#39;; CREATE USER &#39;username&#39;@&#39;another_host&#39; identified by &#39;passwd&#39;; 配置文件 /etc/my.cnf">
   <meta itemprop="datePublished" content="2025-02-23T00:25:21+08:00">
