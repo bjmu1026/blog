@@ -1,0 +1,357 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Systemd-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="systemd
+
+
+systemd unit
+
+单元是systemd的最小功能单位，是但个进程的描述。一个个小的unit互相调用和依赖，组成一个庞大的人物管理系统。
+unit分为不同的种类，大概有12种。service unit负责后台服务，timer unit负责定时器
+每个单元都有一个单元描述文件，分散在3个目录
+
+/lib/systemd/system
+/etc/systemd/system
+/usr/lib/systemd/system
+
+
+查看所有的单元文件
+
+systemctl list-unit-files
+systemctl list-unit-files &ndash;type service
+systemctl list-unit-files &ndash;type timer
+
+
+单元管理命令
+
+system start/stop/restart/kill/status/enable/disable [unitName]
+
+
+
+
+
+Service unit
+
+在/usr/lib/systemd/system目录里面新建一个文件，比如mytimer.service
+
+[Unit]
+Description=MyTimer
+
+[Service]
+ExecStart=/bin/bash /path/to/mail.sh
+
+[Unit]介绍单元的基本信息，Description给出这个单元的简介
+[Service]用来定制行为，Systemd提供许多字段
+
+ExecStart, ExecStop, ExecReload, ExecStartPre, ExecStartPost, ExecStopPost
+
+
+
+
+
+Timer单元
+
+在/usr/lib/systemd/system目录里面 新建一个mytimer.timer文件
+
+[Unit]
+Description=Runs mytimer every hour
+
+[Timer]
+OnUnitActiveSec=1h
+Unit=mytimer.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Timer]定制定时器部分
+
+OnActiveSec 定时器生效后，多少时间开始执行任务
+OnBootSec 系统启动后，多少时间开始执行任务
+OnStartupSec systemd进程启动后多少时间开始执行任务
+OnUnitActiveSec 该单元上次执行后，等多少时间再次执行
+OnUnitInactiveSec 定时器上次关闭多少时间，再次执行
+OnCalendar 基于绝对时间
+AccuracySec 如果因为各种原因，任务必须推迟，推迟的最大秒数，默认60秒
+Unit 真正要执行的任务，默认是同名的.service单元
+Persistent 即使定时器到时没启动也会自动执行相应的单元
+WakeSystem 如果系统休眠，是否自动唤醒系统
+
+
+定时器的相关命令
+
+sudo systemctl start mytimer.timer
+systemctl status mytimer.timer
+systemctl list-timers
+sudo systemctl stop mytimer.timer
+sudo systemctl enable mytimer.timer
+sudo systemctl disable mytimer.timer
+
+" />
+  <meta name="author" content="TongXu-Server" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.png" />
+
+  
+
+  
+
+  <script
+    defer
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.147.7">
+  <meta itemprop="name" content="Systemd">
+  <meta itemprop="description" content="systemd systemd unit
+单元是systemd的最小功能单位，是但个进程的描述。一个个小的unit互相调用和依赖，组成一个庞大的人物管理系统。 unit分为不同的种类，大概有12种。service unit负责后台服务，timer unit负责定时器 每个单元都有一个单元描述文件，分散在3个目录 /lib/systemd/system /etc/systemd/system /usr/lib/systemd/system 查看所有的单元文件 systemctl list-unit-files systemctl list-unit-files –type service systemctl list-unit-files –type timer 单元管理命令 system start/stop/restart/kill/status/enable/disable [unitName] Service unit
+在/usr/lib/systemd/system目录里面新建一个文件，比如mytimer.service [Unit] Description=MyTimer [Service] ExecStart=/bin/bash /path/to/mail.sh [Unit]介绍单元的基本信息，Description给出这个单元的简介 [Service]用来定制行为，Systemd提供许多字段 ExecStart, ExecStop, ExecReload, ExecStartPre, ExecStartPost, ExecStopPost Timer单元
+在/usr/lib/systemd/system目录里面 新建一个mytimer.timer文件 [Unit] Description=Runs mytimer every hour [Timer] OnUnitActiveSec=1h Unit=mytimer.service [Install] WantedBy=multi-user.target [Timer]定制定时器部分 OnActiveSec 定时器生效后，多少时间开始执行任务 OnBootSec 系统启动后，多少时间开始执行任务 OnStartupSec systemd进程启动后多少时间开始执行任务 OnUnitActiveSec 该单元上次执行后，等多少时间再次执行 OnUnitInactiveSec 定时器上次关闭多少时间，再次执行 OnCalendar 基于绝对时间 AccuracySec 如果因为各种原因，任务必须推迟，推迟的最大秒数，默认60秒 Unit 真正要执行的任务，默认是同名的.service单元 Persistent 即使定时器到时没启动也会自动执行相应的单元 WakeSystem 如果系统休眠，是否自动唤醒系统 定时器的相关命令 sudo systemctl start mytimer.timer systemctl status mytimer.timer systemctl list-timers sudo systemctl stop mytimer.timer sudo systemctl enable mytimer.timer sudo systemctl disable mytimer.timer">
+  <meta itemprop="datePublished" content="2025-06-08T09:21:22+08:00">
+  <meta itemprop="dateModified" content="2025-06-08T09:21:22+08:00">
+  <meta itemprop="wordCount" content="98"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/systemd/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="Systemd">
+  <meta property="og:description" content="systemd systemd unit
+单元是systemd的最小功能单位，是但个进程的描述。一个个小的unit互相调用和依赖，组成一个庞大的人物管理系统。 unit分为不同的种类，大概有12种。service unit负责后台服务，timer unit负责定时器 每个单元都有一个单元描述文件，分散在3个目录 /lib/systemd/system /etc/systemd/system /usr/lib/systemd/system 查看所有的单元文件 systemctl list-unit-files systemctl list-unit-files –type service systemctl list-unit-files –type timer 单元管理命令 system start/stop/restart/kill/status/enable/disable [unitName] Service unit
+在/usr/lib/systemd/system目录里面新建一个文件，比如mytimer.service [Unit] Description=MyTimer [Service] ExecStart=/bin/bash /path/to/mail.sh [Unit]介绍单元的基本信息，Description给出这个单元的简介 [Service]用来定制行为，Systemd提供许多字段 ExecStart, ExecStop, ExecReload, ExecStartPre, ExecStartPost, ExecStopPost Timer单元
+在/usr/lib/systemd/system目录里面 新建一个mytimer.timer文件 [Unit] Description=Runs mytimer every hour [Timer] OnUnitActiveSec=1h Unit=mytimer.service [Install] WantedBy=multi-user.target [Timer]定制定时器部分 OnActiveSec 定时器生效后，多少时间开始执行任务 OnBootSec 系统启动后，多少时间开始执行任务 OnStartupSec systemd进程启动后多少时间开始执行任务 OnUnitActiveSec 该单元上次执行后，等多少时间再次执行 OnUnitInactiveSec 定时器上次关闭多少时间，再次执行 OnCalendar 基于绝对时间 AccuracySec 如果因为各种原因，任务必须推迟，推迟的最大秒数，默认60秒 Unit 真正要执行的任务，默认是同名的.service单元 Persistent 即使定时器到时没启动也会自动执行相应的单元 WakeSystem 如果系统休眠，是否自动唤醒系统 定时器的相关命令 sudo systemctl start mytimer.timer systemctl status mytimer.timer systemctl list-timers sudo systemctl stop mytimer.timer sudo systemctl enable mytimer.timer sudo systemctl disable mytimer.timer">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-08T09:21:22+08:00">
+    <meta property="article:modified_time" content="2025-06-08T09:21:22+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Systemd">
+  <meta name="twitter:description" content="systemd systemd unit
+单元是systemd的最小功能单位，是但个进程的描述。一个个小的unit互相调用和依赖，组成一个庞大的人物管理系统。 unit分为不同的种类，大概有12种。service unit负责后台服务，timer unit负责定时器 每个单元都有一个单元描述文件，分散在3个目录 /lib/systemd/system /etc/systemd/system /usr/lib/systemd/system 查看所有的单元文件 systemctl list-unit-files systemctl list-unit-files –type service systemctl list-unit-files –type timer 单元管理命令 system start/stop/restart/kill/status/enable/disable [unitName] Service unit
+在/usr/lib/systemd/system目录里面新建一个文件，比如mytimer.service [Unit] Description=MyTimer [Service] ExecStart=/bin/bash /path/to/mail.sh [Unit]介绍单元的基本信息，Description给出这个单元的简介 [Service]用来定制行为，Systemd提供许多字段 ExecStart, ExecStop, ExecReload, ExecStartPre, ExecStartPost, ExecStopPost Timer单元
+在/usr/lib/systemd/system目录里面 新建一个mytimer.timer文件 [Unit] Description=Runs mytimer every hour [Timer] OnUnitActiveSec=1h Unit=mytimer.service [Install] WantedBy=multi-user.target [Timer]定制定时器部分 OnActiveSec 定时器生效后，多少时间开始执行任务 OnBootSec 系统启动后，多少时间开始执行任务 OnStartupSec systemd进程启动后多少时间开始执行任务 OnUnitActiveSec 该单元上次执行后，等多少时间再次执行 OnUnitInactiveSec 定时器上次关闭多少时间，再次执行 OnCalendar 基于绝对时间 AccuracySec 如果因为各种原因，任务必须推迟，推迟的最大秒数，默认60秒 Unit 真正要执行的任务，默认是同名的.service单元 Persistent 即使定时器到时没启动也会自动执行相应的单元 WakeSystem 如果系统休眠，是否自动唤醒系统 定时器的相关命令 sudo systemctl start mytimer.timer systemctl status mytimer.timer systemctl list-timers sudo systemctl stop mytimer.timer sudo systemctl enable mytimer.timer sudo systemctl disable mytimer.timer">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/systemd/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://bjmu1026.github.io/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Systemd</h1><div class="text-xs antialiased opacity-60"><time>Jun 8, 2025</time></div></header>
+
+  <section><h3 id="systemd">systemd</h3>
+<ul>
+<li>
+<p>systemd unit</p>
+<ul>
+<li>单元是systemd的最小功能单位，是但个进程的描述。一个个小的unit互相调用和依赖，组成一个庞大的人物管理系统。</li>
+<li>unit分为不同的种类，大概有12种。service unit负责后台服务，timer unit负责定时器</li>
+<li>每个单元都有一个单元描述文件，分散在3个目录
+<ul>
+<li>/lib/systemd/system</li>
+<li>/etc/systemd/system</li>
+<li>/usr/lib/systemd/system</li>
+</ul>
+</li>
+<li>查看所有的单元文件
+<ul>
+<li>systemctl list-unit-files</li>
+<li>systemctl list-unit-files &ndash;type service</li>
+<li>systemctl list-unit-files &ndash;type timer</li>
+</ul>
+</li>
+<li>单元管理命令
+<ul>
+<li>system start/stop/restart/kill/status/enable/disable [unitName]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Service unit</p>
+<ul>
+<li>在/usr/lib/systemd/system目录里面新建一个文件，比如mytimer.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>MyTimer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/bin/bash /path/to/mail.sh
+</span></span></code></pre></div><ul>
+<li>[Unit]介绍单元的基本信息，Description给出这个单元的简介</li>
+<li>[Service]用来定制行为，Systemd提供许多字段
+<ul>
+<li>ExecStart, ExecStop, ExecReload, ExecStartPre, ExecStartPost, ExecStopPost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Timer单元</p>
+<ul>
+<li>在/usr/lib/systemd/system目录里面 新建一个mytimer.timer文件</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>Runs mytimer every hour
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Timer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>OnUnitActiveSec<span style="color:#f92672">=</span>1h
+</span></span><span style="display:flex;"><span>Unit<span style="color:#f92672">=</span>mytimer.service
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><ul>
+<li>[Timer]定制定时器部分
+<ul>
+<li>OnActiveSec 定时器生效后，多少时间开始执行任务</li>
+<li>OnBootSec 系统启动后，多少时间开始执行任务</li>
+<li>OnStartupSec systemd进程启动后多少时间开始执行任务</li>
+<li>OnUnitActiveSec 该单元上次执行后，等多少时间再次执行</li>
+<li>OnUnitInactiveSec 定时器上次关闭多少时间，再次执行</li>
+<li>OnCalendar 基于绝对时间</li>
+<li>AccuracySec 如果因为各种原因，任务必须推迟，推迟的最大秒数，默认60秒</li>
+<li>Unit 真正要执行的任务，默认是同名的.service单元</li>
+<li>Persistent 即使定时器到时没启动也会自动执行相应的单元</li>
+<li>WakeSystem 如果系统休眠，是否自动唤醒系统</li>
+</ul>
+</li>
+<li>定时器的相关命令</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo systemctl start mytimer.timer
+</span></span><span style="display:flex;"><span>systemctl status mytimer.timer
+</span></span><span style="display:flex;"><span>systemctl list-timers
+</span></span><span style="display:flex;"><span>sudo systemctl stop mytimer.timer
+</span></span><span style="display:flex;"><span>sudo systemctl enable mytimer.timer
+</span></span><span style="display:flex;"><span>sudo systemctl disable mytimer.timer
+</span></span></code></pre></div></li>
+</ul>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://bjmu1026.github.io/blog/posts/sed/"
+      ><span>Sed</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
