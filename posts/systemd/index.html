@@ -136,7 +136,7 @@ sudo systemctl disable mytimer.timer
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.147.7">
+  <meta name="generator" content="Hugo 0.148.1">
   <meta itemprop="name" content="Systemd">
   <meta itemprop="description" content="systemd systemd unit
 单元是systemd的最小功能单位，是但个进程的描述。一个个小的unit互相调用和依赖，组成一个庞大的人物管理系统。 unit分为不同的种类，大概有12种。service unit负责后台服务，timer unit负责定时器 每个单元都有一个单元描述文件，分散在3个目录 /lib/systemd/system /etc/systemd/system /usr/lib/systemd/system 查看所有的单元文件 systemctl list-unit-files systemctl list-unit-files –type service systemctl list-unit-files –type timer 单元管理命令 system start/stop/restart/kill/status/enable/disable [unitName] Service unit
@@ -334,7 +334,9 @@ sudo systemctl disable mytimer.timer
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/compress/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Compress</span></a
+    ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
       href="https://bjmu1026.github.io/blog/posts/sed/"
       ><span>Sed</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
