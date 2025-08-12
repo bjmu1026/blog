@@ -66,7 +66,7 @@ cat bacup.tar.gz.* | tar -xzvf -
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.148.1">
+  <meta name="generator" content="Hugo 0.148.2">
   <meta itemprop="name" content="Split">
   <meta itemprop="description" content="split 用于分割文件的命令，可以将大文件拆分为多个小文件，常用于分卷压缩、日志切割或网络传输。 #按文件大小分割文件 split -b 100M large_file.iso split_file_ #生成文件split_file_aa split_file_ab ... split -b 500M -d -a 2 big_data.bin data_part_.part #生成文data_part_00.part #按行数分割文件 split -l 1000 access.log split_log_ #合并分割文件 cat split_file_* &gt; merged_file.iso cat data_part_*.part &gt; restored_data.bin #结合tar分卷压缩 tar -czvf - my_dir/ | split -b 500m - backup.tar.gz. cat bacup.tar.gz.* | tar -xzvf -">
   <meta itemprop="datePublished" content="2025-07-23T23:45:21+08:00">

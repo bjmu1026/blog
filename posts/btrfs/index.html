@@ -1,0 +1,589 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="btrfs
+
+
+准备
+
+安装用户空间工具 btrfs-progs
+
+
+
+创建文件系统
+
+
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名
+#默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize
+mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB
+
+
+多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1
+mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ...
+#必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统
+
+profiles
+
+btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别
+
+
+
+
+
+
+
+配置文件系统
+
+
+COW写时复制
+
+
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+
+
+禁用COW会禁用数据校验
+
+
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制
+mv /path/to/dir /path/to/dir_old 
+mkidr /path/to/dir 
+chattr &#43;C /path/to/dir
+cp -a --reflink=never /path/to/dir_old/ /paht/to/dir
+rm -rf /path/ro/dir_old
+
+
+nodatacow会禁用压缩和数据校验和
+
+
+#禁用空文件或目录中新文件的COW特性
+chattr &#43;C 目录或文件路径
+
+对复制的影响
+
+使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制
+
+&ndash;reflink =auto  若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝
+&ndash;reflink  或 &ndash;reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错
+&ndash;reflink=never 强制深拷贝
+
+
+
+
+对快照的影响
+
+快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照
+
+
+
+
+
+压缩" />
+  <meta name="author" content="TongXu-Server" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.png" />
+
+  
+
+  
+
+  <script
+    defer
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.148.2">
+  <meta itemprop="name" content="TongXu-Server">
+  <meta itemprop="description" content="btrfs 准备
+安装用户空间工具 btrfs-progs 创建文件系统
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名 #默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB 多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1 mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ... #必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统 profiles btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别 配置文件系统
+COW写时复制
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+禁用COW会禁用数据校验
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
+#禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+  <meta itemprop="wordCount" content="412"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/btrfs/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="TongXu-Server">
+  <meta property="og:description" content="btrfs 准备
+安装用户空间工具 btrfs-progs 创建文件系统
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名 #默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB 多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1 mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ... #必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统 profiles btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别 配置文件系统
+COW写时复制
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+禁用COW会禁用数据校验
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
+#禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TongXu-Server">
+  <meta name="twitter:description" content="btrfs 准备
+安装用户空间工具 btrfs-progs 创建文件系统
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名 #默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB 多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1 mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ... #必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统 profiles btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别 配置文件系统
+COW写时复制
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+禁用COW会禁用数据校验
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
+#禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/btrfs/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://bjmu1026.github.io/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5"></h1><div class="text-xs antialiased opacity-60"></div></header>
+
+  <section><h3 id="btrfs">btrfs</h3>
+<ul>
+<li>
+<p>准备</p>
+<ul>
+<li>安装用户空间工具 btrfs-progs</li>
+</ul>
+</li>
+<li>
+<p>创建文件系统</p>
+<ul>
+<li>
+<p>单设备文件系统</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkfs.btrfs -L 自定义标签 /dev/分区名
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize</span>
+</span></span><span style="display:flex;"><span>mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB
+</span></span></code></pre></div></li>
+<li>
+<p>多设备文件系统</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1</span>
+</span></span><span style="display:flex;"><span>mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ...
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统</span>
+</span></span></code></pre></div><ul>
+<li>profiles
+<ul>
+<li>btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>配置文件系统</p>
+<ul>
+<li>
+<p>COW写时复制</p>
+<ul>
+<li>
+<p>默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。</p>
+</li>
+<li>
+<p>禁用COW会禁用数据校验</p>
+</li>
+<li>
+<p>使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#将目录中已存在的所有文件禁用写时复制</span>
+</span></span><span style="display:flex;"><span>mv /path/to/dir /path/to/dir_old 
+</span></span><span style="display:flex;"><span>mkidr /path/to/dir 
+</span></span><span style="display:flex;"><span>chattr +C /path/to/dir
+</span></span><span style="display:flex;"><span>cp -a --reflink<span style="color:#f92672">=</span>never /path/to/dir_old/ /paht/to/dir
+</span></span><span style="display:flex;"><span>rm -rf /path/ro/dir_old
+</span></span></code></pre></div></li>
+<li>
+<p>nodatacow会禁用压缩和数据校验和</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#禁用空文件或目录中新文件的COW特性</span>
+</span></span><span style="display:flex;"><span>chattr +C 目录或文件路径
+</span></span></code></pre></div><ul>
+<li>对复制的影响
+<ul>
+<li>使用cp复制时，+C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有+C属性时，才能通过reflink进行复制
+<ul>
+<li>&ndash;reflink =auto  若原文件与目标文件都具有或不具有+C属性，则直接reflink，否则进行深拷贝</li>
+<li>&ndash;reflink  或 &ndash;reflink=always 若原文件与目标文件都具有或不具有+C，则直接reflink，否则报错</li>
+<li>&ndash;reflink=never 强制深拷贝</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对快照的影响
+<ul>
+<li>快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>压缩</p>
+<ul>
+<li>
+<p>btrfs支持透明压缩，通常采用压缩算法越快性能越好。</p>
+<ul>
+<li>支持的压缩算法zlib\lzo\zstd，lzo无压缩级别，zlib 1-9 zstd 1-15</li>
+<li>挂在指定压缩compress=算法[:级别]，btrfs会检测文件写入数据的首个数据块压缩后体积是否缩小，缩小会压缩本次写入的全部内容，否则被标记为nocompress,整个写入过程及该文件后续的所有写入过程都不会触发压缩</li>
+<li>compress-force=算法[:级别] 会检查每次写入的每个数据块并分别决定是否压缩</li>
+</ul>
+</li>
+<li>
+<p>为现有文件启用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#不具有持久性，其他写入操纵将应用原有压缩设置</span>
+</span></span><span style="display:flex;"><span>btrfs filesystem defragment -r -v -czstd 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#持久性启用对单个文件的压缩</span>
+</span></span><span style="display:flex;"><span>chattr +C 文件
+</span></span><span style="display:flex;"><span>btrfs property set 文件 compression zstd
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>子卷</p>
+<ul>
+<li>btrfs子卷是可独立挂载的POSIX文件树，而不是也不能被看作是块设备；btrfs不仅为整个卷提供了可挂载根，每个子卷也拥有独立的可挂载根</li>
+<li>每个btrfs文件系统都有一个ID=5的顶层子卷，这个子卷不能被移除或被其他子卷替代。子卷可以在文件系统中移动，可以嵌套在任意其他子卷下，但子卷ID不变。</li>
+<li>挂载文件系统时默认情况下挂载顶层子卷，除非更改默认子卷</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#必须先挂载其上层子卷才能创建子卷</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume create 子卷父目录/子卷名称
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#以@开头知识一个常见的命名约定</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume create /mnt/@sub
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#--parents 选项可以自动创建不存在的父目录</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume create /mnt/home/@userme 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#-t选项 表格视图查看路径所属文件系统的所有子卷列表</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume list -t path
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#删除子卷，确定在删除子卷前不要挂载该子卷，可能会导致文件系统不一致</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume delete 子卷路径
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#挂载子卷</span>
+</span></span><span style="display:flex;"><span>mount -o subvol<span style="color:#f92672">=</span>子卷path<span style="color:#f92672">(</span>相对于顶层子卷<span style="color:#f92672">)</span> /path
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#将顶层子卷作为/，可以简化子卷布局的更改</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#更改默认子卷</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume set-default 子卷路径
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#将路径所在的文件系统的默认子卷设置为ID为子卷ID的子卷</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume set-default 子卷ID 路径
+</span></span></code></pre></div></li>
+<li>
+<p>配额</p>
+<ul>
+<li>quota group 在频繁创建大量快照的环境中，仍可以导致性能下降，特别是在删除快照时。</li>
+<li>磁盘配额，传统unix配额通过限制用户拥有的所有文件总大小来控制空间使用。</li>
+<li>btrfs采用基于子卷的配额组的机制，通过为用户创建独立子卷与配额组并限制配额组来实现。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#启用配额</span>
+</span></span><span style="display:flex;"><span>btrfs quota enable 路径
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#创建/销毁配额组</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup create  层级/ID 路径
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#若存在子配额组，必须先解除关系</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup destory 层级/ID 路径
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#分配/解除子配额组</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup assign 子配额组 父配额组 路径
+</span></span><span style="display:flex;"><span>btrfs qgroup remove 子配额组 父配额组 路径
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#限制/取消限制配额组</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#路径所在文件系统中限制配额组的总引用空间不超过1GB</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup limit 1G 配额组 路径
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -e 独占引用空间</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup -e limie 20G 配额组 路径
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#none 取消限制</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup limit none 配额组 路径
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#列出配额组</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#使用的是磁盘中的数据，可能需要sync后才能限制准确的统计数据</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup show 路径
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># --sync 强制同步</span>
+</span></span><span style="display:flex;"><span>btrfs qgroup --sync show 路径
+</span></span></code></pre></div><ul>
+<li>
+<p>总引用空间和独占引用空间</p>
+<ul>
+<li>总引用空间 所有能够从配额组内访问到的数据占用的存储空间</li>
+<li>独占引用空间 只被配额组所属的子卷引用的数据所占用的存储空间</li>
+</ul>
+</li>
+<li>
+<p>配额冲扫描</p>
+<ul>
+<li>quota rescn 能够都市圈文件系统的所有区段的元数据，据其更新各配额组的统计值</li>
+<li>手动分配和接触分配子配额组时会自动触发配额重扫描，开销太大，无法等待重扫描结束后再返回，添加&ndash;no-rescan选项避免自动触发，后面手动触发</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs quota rescan 路径
+</span></span></code></pre></div></li>
+<li>
+<p>提交间隔</p>
+<ul>
+<li>将数据写入文件系统的频率由btrfs本身和系统的设置决定，btrfs默认30s检查点间隔。可以在/etc/fstab 增加commit挂载参数来修改</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>LABEL=arch64 / btrfs defaults,noatime,compress=zstd,commit=120 0 0
+</span></span></code></pre></div></li>
+<li>
+<p>简单配额</p>
+<ul>
+<li>将所有区段归属于首次分配它的子卷</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs quota -s enable 路径
+</span></span></code></pre></div></li>
+<li>
+<p>固态硬盘TRIM</p>
+<ul>
+<li>btrfs支持TRIM命令的SSD驱动器中释放未使用的块，挂载参数使用discard=async</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>使用</p>
+<ul>
+<li>
+<p>交换文件</p>
+<ul>
+<li>创建交换文件</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs subvolume create /swap 
+</span></span><span style="display:flex;"><span>btrfs filesystem mkswapfile --size 4G --uuid clear /swap/swapfile
+</span></span><span style="display:flex;"><span>swapon /swap/swapfile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#/etc/fstab</span>
+</span></span><span style="display:flex;"><span>/swap/swapfile none swap defaults <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 
+</span></span></code></pre></div></li>
+<li>
+<p>显示使用和空闲空间</p>
+<ul>
+<li>
+<p>df这样的用户空间工具可能不会准确计算剩余空间</p>
+<pre tabindex="0"><code class="language-shel" data-lang="shel">btrfs filesystem usage /
+btrfs fielsystem df /
+</code></pre></li>
+<li>
+<p>碎片整理</p>
+<ul>
+<li>支持配置挂载参数autodefrag来实现在线的碎片整理</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs filesystem defragment -r /
+</span></span></code></pre></div></li>
+<li>
+<p>btrfs提供对RAID自修复冗余阵列和在线数据平衡</p>
+<ul>
+<li>检修scrub 能读取文件系统中的文件和元数据，并使用校验值和RAID存储上的景象区分三并修复损坏的数据</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#手动启动一个后台文件系统的在线检查任务</span>
+</span></span><span style="display:flex;"><span>btrfs scrub start /
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#检查该任务的运行状态</span>
+</span></span><span style="display:flex;"><span>btrfs scrub status /
+</span></span></code></pre></div><ul>
+<li>数据平衡balance 通过分配器再次传递文件系统中的所有数据，用于在添加或删除设备时跨设备重新平衡文件系统中的数据。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs balance start --bg /
+</span></span><span style="display:flex;"><span>btrfs balance status /
+</span></span></code></pre></div><ul>
+<li>
+<p>快照 是和其他子卷共享数据和元数据的简单子卷</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#source为要创建快照的对象，[dest/]name 快照安放的位置</span>
+</span></span><span style="display:flex;"><span>btrfs subvolume snapshot source <span style="color:#f92672">[</span>dest/<span style="color:#f92672">]</span>name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#-r 参数创建一个只读快照，为只读快照创建一个快照可以获得一个只读快照的可写入版本。</span>
+</span></span></code></pre></div></li>
+<li>
+<p>发送和接收</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#send发送一个快照,receive接收结束后会创建对应子卷</span>
+</span></span><span style="display:flex;"><span>btrfs send /root_backup | btrfs receive /backup
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#--proto 2 --compressed-data 增加效率</span>
+</span></span><span style="display:flex;"><span>btrfs send --proto <span style="color:#ae81ff">2</span> --compressed-data <span style="color:#e6db74">&#39;/mnt/arch/snapshots/@var&#39;</span> | btrfs receive <span style="color:#e6db74">&#39;mnt/arch-v2/subvolumes/&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#增量发送</span>
+</span></span><span style="display:flex;"><span>btrfs send -p /root_backup /root_backup_new | btrfs receive /backup
+</span></span></code></pre></div></li>
+<li>
+<p>调整大小</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#扩展到最大可用大小</span>
+</span></span><span style="display:flex;"><span>btrfs filesystem resize max /
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#扩展到特定的大小</span>
+</span></span><span style="display:flex;"><span>btrfs filesystem resize size /
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#指定增加或减少的大小</span>
+</span></span><span style="display:flex;"><span>btrfs filesystem resize +size /
+</span></span><span style="display:flex;"><span>btrfs filesystem resize -size /
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>提示和技巧</p>
+<ul>
+<li>无分区btrfs磁盘</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkfs.btrfs /dev/sdX
+</span></span><span style="display:flex;"><span>mkfs.btrfs -f /dev/sdX
+</span></span></code></pre></div><ul>
+<li>从EXT4转换
+<ul>
+<li>从安装cd启动，转化分区，修改/etc/fstab 并指定分区类型，最后一列fs_passno = 0</li>
+<li>chroot到系统重建引导加载程序</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#转化分区</span>
+</span></span><span style="display:flex;"><span>btrfs-convert /dev/partition
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#删除备份子卷 </span>
+</span></span><span style="display:flex;"><span>btrfs subvolume delete /ext2_saved
+</span></span></code></pre></div><ul>
+<li>引导进入快照
+<ul>
+<li>在grub-btrfs帮助下，在重新生成配置文件时用btrfs快照启动填充启动菜单</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/git/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Git</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
