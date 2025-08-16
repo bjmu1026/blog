@@ -20,7 +20,7 @@
   />
 
   
-  <title>-TongXu-Server</title>
+  <title>btrfs-TongXu-Server</title>
 
   
   <meta name="theme-color" />
@@ -131,7 +131,7 @@ chattr &#43;C 目录或文件路径
   />
 
   <meta name="generator" content="Hugo 0.148.2">
-  <meta itemprop="name" content="TongXu-Server">
+  <meta itemprop="name" content="btrfs">
   <meta itemprop="description" content="btrfs 准备
 安装用户空间工具 btrfs-progs 创建文件系统
 单设备文件系统
@@ -143,9 +143,11 @@ COW写时复制
 使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
 #将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
 #禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+  <meta itemprop="datePublished" content="2025-08-11T12:26:47+08:00">
+  <meta itemprop="dateModified" content="2025-08-11T12:26:47+08:00">
   <meta itemprop="wordCount" content="412"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/btrfs/">
   <meta property="og:site_name" content="TongXu-Server">
-  <meta property="og:title" content="TongXu-Server">
+  <meta property="og:title" content="btrfs">
   <meta property="og:description" content="btrfs 准备
 安装用户空间工具 btrfs-progs 创建文件系统
 单设备文件系统
@@ -160,9 +162,11 @@ COW写时复制
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-11T12:26:47+08:00">
+    <meta property="article:modified_time" content="2025-08-11T12:26:47+08:00">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="TongXu-Server">
+  <meta name="twitter:title" content="btrfs">
   <meta name="twitter:description" content="btrfs 准备
 安装用户空间工具 btrfs-progs 创建文件系统
 单设备文件系统
@@ -253,7 +257,7 @@ COW写时复制
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5"></h1><div class="text-xs antialiased opacity-60"></div></header>
+    <h1 class="my-0! pb-2.5">btrfs</h1><div class="text-xs antialiased opacity-60"><time>Aug 11, 2025</time></div></header>
 
   <section><h3 id="btrfs">btrfs</h3>
 <ul>
@@ -568,8 +572,10 @@ btrfs fielsystem df /
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/git/"
-      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Git</span></a
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://bjmu1026.github.io/blog/posts/split/"
+      ><span>Split</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
