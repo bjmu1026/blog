@@ -1,0 +1,650 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Grub-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="GRUB
+
+
+GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。
+使用一个单独的/boot分区，可以规避大部分不兼容问题。
+
+
+
+UEFI
+
+
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。
+GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。
+使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi
+
+
+
+安装
+
+
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+
+
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+
+
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install
+#否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot
+
+grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB
+
+#如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目
+
+
+如果使用&ndash;removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+
+
+
+
+启用安全启动
+
+
+GRUB支持CA密钥或者shim进行安全启动。
+
+
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock
+
+
+Shim-lock
+
+
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+
+
+安全启动模式下，不允许使用insmod加载模块。
+
+
+根据ubuntu的官方构建脚本，整合下列模块
+
+
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo
+
+
+平台特定模块
+play 启动时播放声音
+cpuid 启动时检查cpu功能
+tpm 提供可度量启动，可信平台模块支持
+
+
+高级模块
+cryptodisk 从dm-crypt加密磁盘启动
+gcry_algorithm 支持特定散列和加密算法
+luks 从LUKS加密的磁盘启动
+ic|lvm 从LVM逻辑卷启动
+mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动
+
+
+
+
+grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。" />
+  <meta name="author" content="TongXu-Server" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.png" />
+
+  
+
+  
+
+  <script
+    defer
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.148.2">
+  <meta itemprop="name" content="Grub">
+  <meta itemprop="description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。 GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。 使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi 安装
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install #否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB #如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目 如果使用–removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+启用安全启动
+GRUB支持CA密钥或者shim进行安全启动。
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock Shim-lock
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+安全启动模式下，不允许使用insmod加载模块。
+根据ubuntu的官方构建脚本，整合下列模块
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo 平台特定模块
+play 启动时播放声音 cpuid 启动时检查cpu功能 tpm 提供可度量启动，可信平台模块支持 高级模块
+cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加密算法 luks 从LUKS加密的磁盘启动 ic|lvm 从LVM逻辑卷启动 mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。">
+  <meta itemprop="datePublished" content="2025-08-16T08:48:49+08:00">
+  <meta itemprop="dateModified" content="2025-08-16T08:48:49+08:00">
+  <meta itemprop="wordCount" content="408"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/grub/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="Grub">
+  <meta property="og:description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。 GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。 使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi 安装
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install #否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB #如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目 如果使用–removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+启用安全启动
+GRUB支持CA密钥或者shim进行安全启动。
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock Shim-lock
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+安全启动模式下，不允许使用insmod加载模块。
+根据ubuntu的官方构建脚本，整合下列模块
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo 平台特定模块
+play 启动时播放声音 cpuid 启动时检查cpu功能 tpm 提供可度量启动，可信平台模块支持 高级模块
+cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加密算法 luks 从LUKS加密的磁盘启动 ic|lvm 从LVM逻辑卷启动 mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-16T08:48:49+08:00">
+    <meta property="article:modified_time" content="2025-08-16T08:48:49+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Grub">
+  <meta name="twitter:description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。 GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。 使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi 安装
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install #否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB #如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目 如果使用–removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+启用安全启动
+GRUB支持CA密钥或者shim进行安全启动。
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock Shim-lock
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+安全启动模式下，不允许使用insmod加载模块。
+根据ubuntu的官方构建脚本，整合下列模块
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo 平台特定模块
+play 启动时播放声音 cpuid 启动时检查cpu功能 tpm 提供可度量启动，可信平台模块支持 高级模块
+cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加密算法 luks 从LUKS加密的磁盘启动 ic|lvm 从LVM逻辑卷启动 mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/grub/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://bjmu1026.github.io/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Grub</h1><div class="text-xs antialiased opacity-60"><time>Aug 16, 2025</time></div></header>
+
+  <section><h3 id="grub">GRUB</h3>
+<ul>
+<li>
+<p>GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。</p>
+<ul>
+<li>grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。</li>
+<li>使用一个单独的/boot分区，可以规避大部分不兼容问题。</li>
+</ul>
+</li>
+<li>
+<p>UEFI</p>
+<ul>
+<li>
+<p>使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。</p>
+<ul>
+<li>要从一个磁盘上使用UEFI启动，必须有一个efi分区。</li>
+<li>GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。</li>
+<li>使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi</li>
+</ul>
+</li>
+<li>
+<p>安装</p>
+<ul>
+<li>
+<p>安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。</p>
+</li>
+<li>
+<p>挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。</p>
+</li>
+<li>
+<p>执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#需要在chroot之后再运行grub-install</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>esp --bootloader-id<span style="color:#f92672">=</span>GRUB
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目</span>
+</span></span></code></pre></div></li>
+<li>
+<p>如果使用&ndash;removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>启用安全启动</p>
+<ul>
+<li>
+<p>GRUB支持CA密钥或者shim进行安全启动。</p>
+</li>
+<li>
+<p>CA</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-intall --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>sep --bootloader-id<span style="color:#f92672">=</span>GRUB --modules<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tpm&#34;</span> --disabel-shim-lock
+</span></span></code></pre></div></li>
+<li>
+<p>Shim-lock</p>
+<ul>
+<li>
+<p>当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。</p>
+</li>
+<li>
+<p>安全启动模式下，不允许使用insmod加载模块。</p>
+</li>
+<li>
+<p>根据ubuntu的官方构建脚本，整合下列模块</p>
+<ol>
+<li>
+<p>基础模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo
+</span></span></code></pre></div></li>
+<li>
+<p>平台特定模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>play 启动时播放声音
+</span></span><span style="display:flex;"><span>cpuid 启动时检查cpu功能
+</span></span><span style="display:flex;"><span>tpm 提供可度量启动，可信平台模块支持
+</span></span></code></pre></div></li>
+<li>
+<p>高级模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cryptodisk 从dm-crypt加密磁盘启动
+</span></span><span style="display:flex;"><span>gcry_algorithm 支持特定散列和加密算法
+</span></span><span style="display:flex;"><span>luks 从LUKS加密的磁盘启动
+</span></span><span style="display:flex;"><span>ic|lvm 从LVM逻辑卷启动
+</span></span><span style="display:flex;"><span>mdraid09<span style="color:#ae81ff">\m</span>draid1x,raid5rec,raid6rec 从raid虚拟磁盘启动
+</span></span></code></pre></div></li>
+</ol>
+</li>
+<li>
+<p>grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>sep --modules<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>GRUB_MODULES<span style="color:#e6db74">}</span> --sbat /usr/share/grub/sbat.csv 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sbsign --key MOK.key --cert MOK.cert --output esp/EFI/GRUB/grubx64.efi esp/EFI/grubx64.efi
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cp esp/EFI/GRUB/grubx64.efi esp/EFI/BOOT/grubx64.efi
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>配置</p>
+<ul>
+<li>
+<p>GRUB每次启动的时候加载配置文件/boot/grub/grub.cfg</p>
+<ul>
+<li>
+<p>每当修改/etc/default/grub 或者 /etc/grub.d/中的文件后，都需要再次生成主配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-mkconfig -o /boot/grub/grub.cfg
+</span></span></code></pre></div></li>
+<li>
+<p>自动生成脚本默认将在生成的配置文件中为所有已安装的arch linux 内核添加条目。每次安装内核后都需要重新运行一次grub-mkconfig</p>
+</li>
+</ul>
+</li>
+<li>
+<p>探测其他操作系统</p>
+<ul>
+<li>安装os-prober并挂载包含其他系统引导程序的磁盘分区，然后重新运行grub-mkconfig
+<ul>
+<li>输出Warning: os-prober will not be executed to detect other bootable partitions</li>
+<li>需要编辑/etc/default/grub取消 GRUB_DISABLE_OS_PROBER=false注释</li>
+</ul>
+</li>
+<li>windows
+<ul>
+<li>以UEFI安装的windows需要确保含有windows boot manager(bootmgfw.eft)的分区被挂载，以root身份运行os-prober来检测并为其生成启动菜单。</li>
+<li>可能需要安装fuse3，并使用ntfs-3g挂载分区</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>额外参数</p>
+<ul>
+<li>/etc/default/grub中摄这GRUB_CMDLINE_LINUX和GRUB_CMDLINE_LINXU_DEFAULT变量，生成普通启动项时，这两个参数的值会合并在一起传给内核。生成recovery启动项时，仅使用GRUB_CMDLINE_LINUX参数。</li>
+<li>支持系统休眠后恢复
+<ul>
+<li>GRUB_CMDLINE_LINUX_DEFAULT=&ldquo;resume=UUID=uuid-of-swap-partition quiet&rdquo;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>设置启动菜单的顶层启动项</p>
+<ul>
+<li>/etc/default/grub中指定GRUB_TOP_LEVEL=内核路径</li>
+</ul>
+</li>
+<li>
+<p>LVM</p>
+<ul>
+<li>
+<p>如果你的/boot或者/使用了LVM确保lvm模块已经预先加载好</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/etc/default/grub
+</span></span><span style="display:flex;"><span>GRUB_PRELOAD_MODULES<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;... lvm&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>RAID</p>
+<ul>
+<li>
+<p>需要加载GRUB模块mdraid09 或者 mdraid1x</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/etc/default/grub
+</span></span><span style="display:flex;"><span>GRUB_PRELOAD_MODULES<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;... mdraid09 mdraid1x&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#/dev/md0写成</span>
+</span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>md/0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#/dev/md0p1写成</span>
+</span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>md/0,1<span style="color:#f92672">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p>如果在/boot分区使用raid1时安装grub</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>i386-pc --debug /dev/sda
+</span></span><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>i386-pc --debug /dev/sdb
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>定制grub.cfg</p>
+<ul>
+<li>
+<p>基础的GRUB配置如下的设置</p>
+<ul>
+<li>(hdX,Y) 为磁盘x上的y分区，分区编号从1开始，磁盘编号从0开始</li>
+<li>set default=N 用户没有进行选择时的默认启动项</li>
+<li>set timeout=M 使用默认启动项之前等待用户自动选择的时间</li>
+<li>menuentry &ldquo;title&rdquo; {entry options} 为一个标题为title的启动条目</li>
+<li>set root=(hdX,Y) 设置/boot分区，即内核和GRUB模块存储的位置</li>
+</ul>
+</li>
+<li>
+<p>LoaderDevicePartUUID</p>
+<ul>
+<li>
+<p>gpt分区自动挂载使用的systemd-gpt-auto-generator需要LoaderDevicePartUUID UEFI变量以正常工作</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#/boot/grub/grub.cfg</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$grub_platform<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;efi&#34;</span><span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	insmod bli
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>grub启动菜单条目示例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;System shutdown&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;System shutting down...&#34;</span>
+</span></span><span style="display:flex;"><span>	halt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;System restart&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;System rebooting...&#34;</span>
+</span></span><span style="display:flex;"><span>	reboot
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">${</span>grub_platform<span style="color:#e6db74">}</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;efi&#34;</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#放入仅grub处于uefi模式的时候显示的条目</span>
+</span></span><span style="display:flex;"><span>	menuentry <span style="color:#e6db74">&#34;UEFI Firmware Settings&#34;</span> --id <span style="color:#e6db74">&#39;uefi-firmware&#39;</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		fwsetup
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;UEFI Shell&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	insmod fat
+</span></span><span style="display:flex;"><span>	insmod chain
+</span></span><span style="display:flex;"><span>	search --no-floppy --set<span style="color:#f92672">=</span>root --file /shellx64.efi
+</span></span><span style="display:flex;"><span>	chainloader /shellx64.efi
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;Arch Linux&#34;</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	insmod fat
+</span></span><span style="display:flex;"><span>	insmod chain
+</span></span><span style="display:flex;"><span>	search --no-floppy --set<span style="color:#f92672">=</span>root --fs-uuid FILESYSTEM_UUID
+</span></span><span style="display:flex;"><span>	chainloader /EFI/Linux/arch-linux.efi
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;Other Linux&#34;</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	set root<span style="color:#f92672">=(</span>hd0,2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	linux /boot/vmlinuz
+</span></span><span style="display:flex;"><span>	initrd /boot/initrd.img
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;Other Linux&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	search --no-floppy --set<span style="color:#f92672">=</span>root --fs-uuid uuid
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#search -no-floppy --set=root --label OTHER_LINUX</span>
+</span></span><span style="display:flex;"><span>	linux /boot/vmlinuz
+</span></span><span style="display:flex;"><span>	initrd /boot/initrd.img
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;configfile hd0,gpt4&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	insmod part_gpt
+</span></span><span style="display:flex;"><span>	insmod btrfs
+</span></span><span style="display:flex;"><span>	insmod ext2
+</span></span><span style="display:flex;"><span>	set root<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hd0,gpt4&#39;</span>
+</span></span><span style="display:flex;"><span>	configfile /boot/grub/grub.cfg
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#uefi/gpt模式下安装windows</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#39;${grub_platfome}&#39;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;efi&#34;</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	menuentry <span style="color:#e6db74">&#34;MS Windows UEFI/GPT&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		insmod part_gpt
+</span></span><span style="display:flex;"><span>		insmod fat
+</span></span><span style="display:flex;"><span>		insmod chain
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#grub-probe --target=fs_uuid esp/EFI/Microsoft/Boot/bootmgfw.efi得到 $fs_uuid</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#grub-probe --target=hints_string eps/EFI/Microsoft/Boot/bootmgfw.efi</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#--hint-bios=hd0,gpt1 --hint-efi=hd0,gpt1 --hin-baremetal=ahci0,gpt1</span>
+</span></span><span style="display:flex;"><span>		search --no-floppy --fs-uuid --set<span style="color:#f92672">=</span>root $hints_string $fs_uuid
+</span></span><span style="display:flex;"><span>		chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>grub命令行</p>
+<ul>
+<li>GRUB的主要功能通过/boot/grub里的模块实现，按需加载。GRUB提供了gurb&gt;正常的shell以及grub rescue&gt;救急shell。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub rescue&gt; set prefix<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub
+</span></span><span style="display:flex;"><span>grub rescue&gt; insmod <span style="color:#f92672">(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub/i386-pc/normal.mod
+</span></span><span style="display:flex;"><span>rescue:grub&gt;normal
+</span></span></code></pre></div><ul>
+<li>
+<p>支持对长输出进行分页</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub&gt; set pager <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div></li>
+<li>
+<p>使用命令行引导操作系统</p>
+<ul>
+<li>使用chainloading来引导存储在一个驱动器或者分区中的windows或者linux系统</li>
+<li>chainloading的意思是用当前的启动加载器去加载另一个启动加载器，也叫做链式加载</li>
+<li>要被加载的另一个启动加载器可能在一个有分区表的磁盘的头部MBR，或者在一个未分区磁盘或者一个分区的头部VBR，也可能在使用UEFI得情况下是一个EFI可执行文件</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#分区的VBR</span>
+</span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>chainloader +1
+</span></span><span style="display:flex;"><span>boot
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MBR或者未分区的VBR</span>
+</span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=</span>hdX
+</span></span><span style="display:flex;"><span>chainloader +1
+</span></span><span style="display:flex;"><span>boot
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#uefi</span>
+</span></span><span style="display:flex;"><span>insmod fat
+</span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>hdx,gpty<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>chainloader <span style="color:#f92672">(</span><span style="color:#e6db74">${</span>root<span style="color:#e6db74">}</span>/EFI/Microsoft/Boot/bootmgfw.efi<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>boot
+</span></span></code></pre></div><ul>
+<li>急救模式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#grub rescue&gt;</span>
+</span></span><span style="display:flex;"><span>set prefix<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub
+</span></span><span style="display:flex;"><span>insmod linux  <span style="color:#75715e">#启动熟悉的linux和initrd命令的支持</span>
+</span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>linux /boot/vmlinuz-linux root<span style="color:#f92672">=</span>/dev/sdaz
+</span></span><span style="display:flex;"><span>initrd /boot/initramfs-linux.img
+</span></span><span style="display:flex;"><span>boot
+</span></span></code></pre></div></li>
+<li>
+<p>移除GRUB</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#运行efibootmgr确保安装了其他启动加载器并配置其接管启动引导工作</span>
+</span></span><span style="display:flex;"><span>efibootmgr
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#BootOrder: 0003, 0001, 0000, 0002</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Boot0000* Windows Boot Manager HD(2,GPT,uuid)/File(\EFI\Microsoft\Boot\bootmgfw.efi)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Boot0001* GRUB HD(2,GPT,uuid)/File(/EFI/GRUB/grubx64.efi)</span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>efibootmgr --delete-bootnum -b <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#再删除esp/EFI/grub和/boot/grub目录</span>
+</span></span></code></pre></div></li>
+</ul>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/font/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Font</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://bjmu1026.github.io/blog/posts/btrfs/"
+      ><span>btrfs</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
