@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://bjmu1026.github.io/blog/posts/grub-btrfs/</loc>
-    <lastmod>2025-08-16T15:07:57+08:00</lastmod>
-  </url><url>
     <loc>https://bjmu1026.github.io/blog/posts/</loc>
-    <lastmod>2025-08-16T15:07:57+08:00</lastmod>
+    <lastmod>2025-09-20T22:00:24+08:00</lastmod>
+  </url><url>
+    <loc>https://bjmu1026.github.io/blog/posts/sqlite/</loc>
+    <lastmod>2025-09-20T22:00:24+08:00</lastmod>
   </url><url>
     <loc>https://bjmu1026.github.io/blog/</loc>
+    <lastmod>2025-09-20T22:00:24+08:00</lastmod>
+  </url><url>
+    <loc>https://bjmu1026.github.io/blog/posts/grub-btrfs/</loc>
     <lastmod>2025-08-16T15:07:57+08:00</lastmod>
   </url><url>
     <loc>https://bjmu1026.github.io/blog/posts/font/</loc>
