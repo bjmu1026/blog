@@ -89,7 +89,7 @@ awk &#39;$1&gt;2&#39; log.txt
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.150.0">
+  <meta name="generator" content="Hugo 0.152.2">
   <meta itemprop="name" content="Awk">
   <meta itemprop="description" content="awk 语法 awk options `pattern {action}` file options -F &lt;分隔符&gt; 或 –field-separator=&lt;分隔符&gt;: 指定输入字段的分隔符，默认是空格，使用这个选项可以指定不同于默认分隔符的字段分隔符。 -v &lt;变量名&gt;=&lt;值&gt; ：设置awk内部变量的值，可以使用该选项将外部值传递给awk脚本中的变量 -f &lt;脚本文件&gt; 指定一个包含awk脚本的文件，这样可以在文件中编辑较大的awk脚本，然后通过-f选项将其加载。 -V 或–version 显示awk的版本信息 -h 或 –help 显示awk的帮助信息，包括选项和用法示例。 例子 awk &#39;{print}&#39; file #打印整行 awk &#39;{print $1,$2}&#39; file #打印特定列 awk -F &#39;,&#39; &#39;{print $1,$2}&#39; file #使用分隔符指定列 awk &#39;{print NR,$1}&#39; file #打印行数 awk &#39;/pattern/{print NR,$0}&#39; file #打印满足条件的行 awk &#39;{sum &#43;= $1} END {print sum}&#39; file #计算列的总和 awk &#39;max &lt; $1 {max = $1} END {print max}&#39; file #打印最大值 awk &#39;{printf &#34;%-10s %-10s\n&#34;,$1,$2}&#39; file #格式化输出 基本用法 awk &#39;{[pattern] action}&#39; {filenames} awk &#39;{print $1,$4}&#39; log.txt #按空格或tab键分割，输出文件中的1,4项 awk &#39;{printf &#34;%-8s %-10s\n&#34;,$1,$4}&#39; log.txt #格式化输出1,4项 awk -F, &#39;{print $1,$4}&#39; log.txt #使用逗号进行分割 awk -F &#39;[ ,:]&#39; &#39;{print $1,$2}&#39; log.txt #使用多个分隔符，先使用空格再使用，再使用:进行分割 awk -v a=1 &#39;{print $1,$1&#43;a}&#39; log.txt #设置变量 运算符 awk &#39;$1&gt;2&#39; log.txt">
   <meta itemprop="datePublished" content="2025-01-26T12:26:47+08:00">

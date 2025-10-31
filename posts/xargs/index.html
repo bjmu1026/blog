@@ -126,7 +126,7 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.150.0">
+  <meta name="generator" content="Hugo 0.152.2">
   <meta itemprop="name" content="Xargs">
   <meta itemprop="description" content="xargs命令 将标准输入转换为命令行参数 #grep可以接受标准输入作为参数 cat /etc/passwd | grep root # grep root /etc/passwd #echo不接受标准输入作为参数 echo &#34;hello world&#34; | echo 执行错误 xargs的单独使用 xargs == xargs echo # 后面的命令默认为echo #xargs 执行后输入hello,按ctr&#43;D 执行echo打印 xargs hello(^D) hello # $xargs find -name &#34;*.txt&#34; ./foo.txt ./hello.txt -d参数与分隔符 #默认使用换行符和空格作为分隔符，把标准输入分解成一个个命令行参数 echo &#34;one two three&#34; | xargs mkdir #使用制表符作为分隔符 echo -e &#34;a\tb\tc&#34; | xargs -d &#34;\t&#34; echo -p 与 -t参数 #-p打印出要执行的命令，询问是否执行，输入y后才会正真执行 echo &#34;one two three&#34; | xargs -p touch $touch one two three?... #询问是否执行 #-t打印出最终要执行的命令，直接执行，不需要用户确认 echo &#34;one two three&#34; | xargs -t rm $rm one two three #打印并直接执行 -0参数与find的配合 #print0 制定输出的文件列表以null分隔，xargs -0 参数表示用null作为分隔符 find /path -type f -print0 | xargs -0 rm -L参数与-n参数 #标准输入包含多行时，-L指定多少行作为一个命令行参数 xargs find -name &#34;*.txt&#34; &#34;*.md&#34; #报错 find 命令不能同时接受两个通配符 #使用-L参数指定每一行作为一个命令行参数，就不会报错 xargs -L 1 find -name &#34;*.txt&#34; $./foo.txt $./hello.txt &#34;*.md&#34; $./README.md #同一行输入多项，使用-n参数指定每次将动少项作为命令行参数 xargs -n 1 find -name &#34;*.txt&#34; &#34;*.md&#34; -I参数 将命令行参数传给多个命令 cat foo.txt | xargs -I file sh -c &#34;echo file;mkdir file&#34; #-I file中file是命令行参数的替代字符串 –max-procs 参数 #默认xargs只使用一个进程执行命令，如果命令要执行多次，必须等上一次的命令执行玩，才能执行下一次 docker ps -q | xargs -n 1 --max-procs 0 docker kill #--max-procs 0表示不限制进程数量 #--max-procs 2表示使用2个进程执行命令">
   <meta itemprop="datePublished" content="2025-06-06T21:27:47+08:00">
