@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="en-us"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=5000&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -240,10 +240,10 @@ tar -czvf full_backup.tar.gz --listed-incremental=snapshot.file my_dir/
 #后续增量备份
 tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/
 " />
-  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="http://localhost:5000/main.min.css" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
 
   
-  <link rel="preload" as="image" href="http://localhost:5000/theme.svg" />
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
 
   
 
@@ -251,21 +251,40 @@ tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/
 
   <script
     defer
-    src="http://localhost:5000/highlight.min.js"
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:5000/favicon.ico"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:5000/apple-touch-icon.png"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.152.2">
+  <meta itemprop="name" content="Compress">
+  <meta itemprop="description" content="zip zip是linux下常用的压缩工具，支持创建、修改和提取zip格式的压缩文件。是一种跨平台的压缩格式，适用于windows和linux之间的文件交换。 #压缩文件 zip file.zip file # -r 压缩目录 zip -r dir.zip dir/ # -u 添加新文件或更新已有文件 zip -u file.zip file # -d 删除指定文件 zip -d file.zip file # -T 测试文件的完整性 zip -T file.zip # -e 加密zip文件（设置密码） zip -e file_en.zip file.zip # -x 排除一些文件 zip -r dir.zip /dir -x &#34;*.log&#34; &#34;*.tmp&#34; #解压缩到当前目录 unzip file.zip #解压缩到指定目录 unzip file.zip -d /path/to/dir gzip 只能压缩单个文件，压缩速度快 #压缩文件，原文件被删除 gzip file.txt #压缩文件，原文件保留 gzip -k file.txt # -l 查看压缩文件信息 gzip -l file.txt.gz # -v 显示压缩/解压详情 gzip -v file.txt # -c 输出到标准输出 不修改原文件 gzip -c file.txt &gt; file.txt.gz # 批量压缩当前目录所有.txt文件 gzip *.txt #解压缩 gzip -v -d file.txt.gz gunzip -v file.txt.gz #gunzip是gzip -d 的别名 xz 基于LZMA/LZMA2算法的高效压缩工具，压缩率通常比gzip bzip2更高，速度较慢，只能压缩单个文件 #压缩文件，原文件被删除 xz file.txt #压缩但保留原文件 xz -k file.txt # -l 查看压缩文件信息 xz -l file.txt.xz #使用最高压缩比 xz -9 large_file.iso # -Tn 多线程压缩 xz -T4 file.txt#4个线程加速 # -c 输出到屏幕，不生成文件 xz -c file.txt &gt; file.txt.xz #解压缩文件 xz -d file.txt.xz unxz file.txt.xz #unxz是xz -d的别名 bzip2 基于Burrows-Wheeler算法的压缩工具，压缩率比gzip更高，但比xz稍低，适合中等大小的文件 #压缩文件,源文件被删除 bzip2 file.txt #保留原文件压缩 bzip2 -k file.txt #测试压缩文件的完整性 bzip2 -t file.txt.bz2 #-c输出到屏幕，-v显示详情 bzip2 -v -c file.txt &gt; file.txt.bz2 #解压缩 bzip2 -d file.txt.bz2 bunzip2 file.txt.bz2 7-zip 支持多种压缩格式，并提供AES-256加密，分卷压缩等高级功能。 sudo pacman -S p7zip #压缩文件或目录 -a 添加文件到压缩包 -r 递归处理子目录 7z a archive.7z file1.txt fiel2.txt 7z a archive.7z my_dir/ -r #使用最高压缩率 7z a -mx=9 archive.7z large_file.iso #使用压缩算法 7z a -m0=lzma2 archive.7z large_file.iso #指定文件格式 7z a -tzip archive.zip my_dir/ 7z a -txz archive.tar.xz my_dir/ 7z a -tgzip archive.tar.gz my_dir/ #加密压缩 7z a -p archive.7z secret_files/ -r # 提示输入密码 7z a -pMyPassword archive.7z secret_files/ -r #直接使用指定密码 #分卷压缩 7z a -v500M archive.7z huge_file/ # l 查看压缩包的内容 7z l archive.7z # t 测试压缩包的完整性 7z t archive.7z # 删除压缩包内的文件 7z d archive.7z unwanted_file.txt # 更新压缩包 u 7z u archive.7z new_file.txt #解压缩 7z x archive.7z #解压到当前目录 7z x archive.7z -o /tmp/#解压到指定目录 7z x archive.7z -pMyPassword #解压加密文件 7z x -tzip archive.zip #指定文件格式 lz4 是一个急速压缩和解压缩工具，特点是解压缩速度极快，但压缩率相对较低，适合用于需要快速压缩或解压缩的场景，如日志处理、实时数据传输。 #压缩文件 lz4 file.txt #调节压缩率 lz4 -9 file.txt #-9最高压缩率 #强制覆盖已有文件 lz4 -f file.txt #压缩后删除原文件 lz4 --rm file.txt #多线程压缩 lz4 -T0 file.txt #自动使用所有cpu核心 lz4 -T4 file.txt #使用4个线程 #检查压缩文件的完整性 lz4 -t file.txt.lz4 #解压缩 lz4 -d file.txt.lz4 unlz4 file.txt.lz4 zstd 一款fackbook开发的一款现代高性能压缩工具，在压缩速度、压缩率和内存占用之间取得了优秀平衡，适用于日志压缩、数据库备份、实时数据传输等场景。 #压缩文件 zstd file.txt #保留源文件 zstd -k file.txt #指定输出文件名 zstd -o archive.zst file.txt #调整压缩级别 -1 -19高压缩率 zstd -19 file.txt #多线程加速 zstd -T0 file.txt #使用所有的cpu核心 zstd -T4 file.txt #使用4个线程 #查看压缩信息 zstd -l archive.zst #解压缩 zstd -d file.txt.zst unzstd file.txt.zst #unsztd 是zstd -d 的别名 #管道压缩/解压缩 cat file.txt | zstd &gt; file.txt.zst cat file.txt.zst | zstd -d &gt; file.txt rar windows常用的压缩工具，linux需要安装unrar rar命令，支持rar格式，提供高压缩率、分卷压缩、密码保护和恢复记录等功能。 sudo pacman -S rar unrar #压缩文件或目录 a 添加文件到压缩包 rar a archive.rar file1.txt file2.txt rar a -r arhive.rar my_dir/ #-r 递归处理目录 #使用最高的压缩率-m5 rar a -m5 archive.rar large_file.iso #加密压缩 rar a -p archive.rar secret_files rar a -pMyPassword arvchive.rar secret_files #分卷压缩 rar a -v500M archive.rar huge_file #查看压缩包内容 unrar l archive.rar #解压文件 unrar x archive.rar #解压缩目录到当前目录 保留路径 unrar e archive.rar #解压缩到当前目录 不保留路径 unrar x archive.rar /target/path/ #解压缩到指定目录 #测试压缩包的完整性 unrar t archive.rar #删除压缩包内的文件 rar d archive.rar unwanted_file.txt #更新压缩包 添加新文件 rar u archive.rar new_file.txt tar命令 #打包与解包 tar -cvf archive.tar my_dir/ tar -xvf archive.tar tar -xvf archive.tar -C /target/path/ #解包到指定目录 #查看归档内容 tar -tvf archive.tar.gz #排除特定文件 tar -cvf backup.tar --exclude=&#34;*.tmp&#34; --exclude=&#34;logs/&#34; my_dir/ #追加文件 tar -rvf archive.tar new_file.tar #压缩选项 tar -czvf archive.tar.gz tar -cjvf archive.tar.bz2 tar -cJvf archive.tar.xz tar --zstd -cvf archive.tar.zst tar --lz4 -cvf archive.tar.lz4 #增量备份 #首次完整备份 tar -czvf full_backup.tar.gz --listed-incremental=snapshot.file my_dir/ #后续增量备份 tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/">
+  <meta itemprop="datePublished" content="2025-07-20T23:18:55+08:00">
+  <meta itemprop="dateModified" content="2025-07-20T23:18:55+08:00">
+  <meta itemprop="wordCount" content="524"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/compress/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="Compress">
+  <meta property="og:description" content="zip zip是linux下常用的压缩工具，支持创建、修改和提取zip格式的压缩文件。是一种跨平台的压缩格式，适用于windows和linux之间的文件交换。 #压缩文件 zip file.zip file # -r 压缩目录 zip -r dir.zip dir/ # -u 添加新文件或更新已有文件 zip -u file.zip file # -d 删除指定文件 zip -d file.zip file # -T 测试文件的完整性 zip -T file.zip # -e 加密zip文件（设置密码） zip -e file_en.zip file.zip # -x 排除一些文件 zip -r dir.zip /dir -x &#34;*.log&#34; &#34;*.tmp&#34; #解压缩到当前目录 unzip file.zip #解压缩到指定目录 unzip file.zip -d /path/to/dir gzip 只能压缩单个文件，压缩速度快 #压缩文件，原文件被删除 gzip file.txt #压缩文件，原文件保留 gzip -k file.txt # -l 查看压缩文件信息 gzip -l file.txt.gz # -v 显示压缩/解压详情 gzip -v file.txt # -c 输出到标准输出 不修改原文件 gzip -c file.txt &gt; file.txt.gz # 批量压缩当前目录所有.txt文件 gzip *.txt #解压缩 gzip -v -d file.txt.gz gunzip -v file.txt.gz #gunzip是gzip -d 的别名 xz 基于LZMA/LZMA2算法的高效压缩工具，压缩率通常比gzip bzip2更高，速度较慢，只能压缩单个文件 #压缩文件，原文件被删除 xz file.txt #压缩但保留原文件 xz -k file.txt # -l 查看压缩文件信息 xz -l file.txt.xz #使用最高压缩比 xz -9 large_file.iso # -Tn 多线程压缩 xz -T4 file.txt#4个线程加速 # -c 输出到屏幕，不生成文件 xz -c file.txt &gt; file.txt.xz #解压缩文件 xz -d file.txt.xz unxz file.txt.xz #unxz是xz -d的别名 bzip2 基于Burrows-Wheeler算法的压缩工具，压缩率比gzip更高，但比xz稍低，适合中等大小的文件 #压缩文件,源文件被删除 bzip2 file.txt #保留原文件压缩 bzip2 -k file.txt #测试压缩文件的完整性 bzip2 -t file.txt.bz2 #-c输出到屏幕，-v显示详情 bzip2 -v -c file.txt &gt; file.txt.bz2 #解压缩 bzip2 -d file.txt.bz2 bunzip2 file.txt.bz2 7-zip 支持多种压缩格式，并提供AES-256加密，分卷压缩等高级功能。 sudo pacman -S p7zip #压缩文件或目录 -a 添加文件到压缩包 -r 递归处理子目录 7z a archive.7z file1.txt fiel2.txt 7z a archive.7z my_dir/ -r #使用最高压缩率 7z a -mx=9 archive.7z large_file.iso #使用压缩算法 7z a -m0=lzma2 archive.7z large_file.iso #指定文件格式 7z a -tzip archive.zip my_dir/ 7z a -txz archive.tar.xz my_dir/ 7z a -tgzip archive.tar.gz my_dir/ #加密压缩 7z a -p archive.7z secret_files/ -r # 提示输入密码 7z a -pMyPassword archive.7z secret_files/ -r #直接使用指定密码 #分卷压缩 7z a -v500M archive.7z huge_file/ # l 查看压缩包的内容 7z l archive.7z # t 测试压缩包的完整性 7z t archive.7z # 删除压缩包内的文件 7z d archive.7z unwanted_file.txt # 更新压缩包 u 7z u archive.7z new_file.txt #解压缩 7z x archive.7z #解压到当前目录 7z x archive.7z -o /tmp/#解压到指定目录 7z x archive.7z -pMyPassword #解压加密文件 7z x -tzip archive.zip #指定文件格式 lz4 是一个急速压缩和解压缩工具，特点是解压缩速度极快，但压缩率相对较低，适合用于需要快速压缩或解压缩的场景，如日志处理、实时数据传输。 #压缩文件 lz4 file.txt #调节压缩率 lz4 -9 file.txt #-9最高压缩率 #强制覆盖已有文件 lz4 -f file.txt #压缩后删除原文件 lz4 --rm file.txt #多线程压缩 lz4 -T0 file.txt #自动使用所有cpu核心 lz4 -T4 file.txt #使用4个线程 #检查压缩文件的完整性 lz4 -t file.txt.lz4 #解压缩 lz4 -d file.txt.lz4 unlz4 file.txt.lz4 zstd 一款fackbook开发的一款现代高性能压缩工具，在压缩速度、压缩率和内存占用之间取得了优秀平衡，适用于日志压缩、数据库备份、实时数据传输等场景。 #压缩文件 zstd file.txt #保留源文件 zstd -k file.txt #指定输出文件名 zstd -o archive.zst file.txt #调整压缩级别 -1 -19高压缩率 zstd -19 file.txt #多线程加速 zstd -T0 file.txt #使用所有的cpu核心 zstd -T4 file.txt #使用4个线程 #查看压缩信息 zstd -l archive.zst #解压缩 zstd -d file.txt.zst unzstd file.txt.zst #unsztd 是zstd -d 的别名 #管道压缩/解压缩 cat file.txt | zstd &gt; file.txt.zst cat file.txt.zst | zstd -d &gt; file.txt rar windows常用的压缩工具，linux需要安装unrar rar命令，支持rar格式，提供高压缩率、分卷压缩、密码保护和恢复记录等功能。 sudo pacman -S rar unrar #压缩文件或目录 a 添加文件到压缩包 rar a archive.rar file1.txt file2.txt rar a -r arhive.rar my_dir/ #-r 递归处理目录 #使用最高的压缩率-m5 rar a -m5 archive.rar large_file.iso #加密压缩 rar a -p archive.rar secret_files rar a -pMyPassword arvchive.rar secret_files #分卷压缩 rar a -v500M archive.rar huge_file #查看压缩包内容 unrar l archive.rar #解压文件 unrar x archive.rar #解压缩目录到当前目录 保留路径 unrar e archive.rar #解压缩到当前目录 不保留路径 unrar x archive.rar /target/path/ #解压缩到指定目录 #测试压缩包的完整性 unrar t archive.rar #删除压缩包内的文件 rar d archive.rar unwanted_file.txt #更新压缩包 添加新文件 rar u archive.rar new_file.txt tar命令 #打包与解包 tar -cvf archive.tar my_dir/ tar -xvf archive.tar tar -xvf archive.tar -C /target/path/ #解包到指定目录 #查看归档内容 tar -tvf archive.tar.gz #排除特定文件 tar -cvf backup.tar --exclude=&#34;*.tmp&#34; --exclude=&#34;logs/&#34; my_dir/ #追加文件 tar -rvf archive.tar new_file.tar #压缩选项 tar -czvf archive.tar.gz tar -cjvf archive.tar.bz2 tar -cJvf archive.tar.xz tar --zstd -cvf archive.tar.zst tar --lz4 -cvf archive.tar.lz4 #增量备份 #首次完整备份 tar -czvf full_backup.tar.gz --listed-incremental=snapshot.file my_dir/ #后续增量备份 tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-20T23:18:55+08:00">
+    <meta property="article:modified_time" content="2025-07-20T23:18:55+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Compress">
+  <meta name="twitter:description" content="zip zip是linux下常用的压缩工具，支持创建、修改和提取zip格式的压缩文件。是一种跨平台的压缩格式，适用于windows和linux之间的文件交换。 #压缩文件 zip file.zip file # -r 压缩目录 zip -r dir.zip dir/ # -u 添加新文件或更新已有文件 zip -u file.zip file # -d 删除指定文件 zip -d file.zip file # -T 测试文件的完整性 zip -T file.zip # -e 加密zip文件（设置密码） zip -e file_en.zip file.zip # -x 排除一些文件 zip -r dir.zip /dir -x &#34;*.log&#34; &#34;*.tmp&#34; #解压缩到当前目录 unzip file.zip #解压缩到指定目录 unzip file.zip -d /path/to/dir gzip 只能压缩单个文件，压缩速度快 #压缩文件，原文件被删除 gzip file.txt #压缩文件，原文件保留 gzip -k file.txt # -l 查看压缩文件信息 gzip -l file.txt.gz # -v 显示压缩/解压详情 gzip -v file.txt # -c 输出到标准输出 不修改原文件 gzip -c file.txt &gt; file.txt.gz # 批量压缩当前目录所有.txt文件 gzip *.txt #解压缩 gzip -v -d file.txt.gz gunzip -v file.txt.gz #gunzip是gzip -d 的别名 xz 基于LZMA/LZMA2算法的高效压缩工具，压缩率通常比gzip bzip2更高，速度较慢，只能压缩单个文件 #压缩文件，原文件被删除 xz file.txt #压缩但保留原文件 xz -k file.txt # -l 查看压缩文件信息 xz -l file.txt.xz #使用最高压缩比 xz -9 large_file.iso # -Tn 多线程压缩 xz -T4 file.txt#4个线程加速 # -c 输出到屏幕，不生成文件 xz -c file.txt &gt; file.txt.xz #解压缩文件 xz -d file.txt.xz unxz file.txt.xz #unxz是xz -d的别名 bzip2 基于Burrows-Wheeler算法的压缩工具，压缩率比gzip更高，但比xz稍低，适合中等大小的文件 #压缩文件,源文件被删除 bzip2 file.txt #保留原文件压缩 bzip2 -k file.txt #测试压缩文件的完整性 bzip2 -t file.txt.bz2 #-c输出到屏幕，-v显示详情 bzip2 -v -c file.txt &gt; file.txt.bz2 #解压缩 bzip2 -d file.txt.bz2 bunzip2 file.txt.bz2 7-zip 支持多种压缩格式，并提供AES-256加密，分卷压缩等高级功能。 sudo pacman -S p7zip #压缩文件或目录 -a 添加文件到压缩包 -r 递归处理子目录 7z a archive.7z file1.txt fiel2.txt 7z a archive.7z my_dir/ -r #使用最高压缩率 7z a -mx=9 archive.7z large_file.iso #使用压缩算法 7z a -m0=lzma2 archive.7z large_file.iso #指定文件格式 7z a -tzip archive.zip my_dir/ 7z a -txz archive.tar.xz my_dir/ 7z a -tgzip archive.tar.gz my_dir/ #加密压缩 7z a -p archive.7z secret_files/ -r # 提示输入密码 7z a -pMyPassword archive.7z secret_files/ -r #直接使用指定密码 #分卷压缩 7z a -v500M archive.7z huge_file/ # l 查看压缩包的内容 7z l archive.7z # t 测试压缩包的完整性 7z t archive.7z # 删除压缩包内的文件 7z d archive.7z unwanted_file.txt # 更新压缩包 u 7z u archive.7z new_file.txt #解压缩 7z x archive.7z #解压到当前目录 7z x archive.7z -o /tmp/#解压到指定目录 7z x archive.7z -pMyPassword #解压加密文件 7z x -tzip archive.zip #指定文件格式 lz4 是一个急速压缩和解压缩工具，特点是解压缩速度极快，但压缩率相对较低，适合用于需要快速压缩或解压缩的场景，如日志处理、实时数据传输。 #压缩文件 lz4 file.txt #调节压缩率 lz4 -9 file.txt #-9最高压缩率 #强制覆盖已有文件 lz4 -f file.txt #压缩后删除原文件 lz4 --rm file.txt #多线程压缩 lz4 -T0 file.txt #自动使用所有cpu核心 lz4 -T4 file.txt #使用4个线程 #检查压缩文件的完整性 lz4 -t file.txt.lz4 #解压缩 lz4 -d file.txt.lz4 unlz4 file.txt.lz4 zstd 一款fackbook开发的一款现代高性能压缩工具，在压缩速度、压缩率和内存占用之间取得了优秀平衡，适用于日志压缩、数据库备份、实时数据传输等场景。 #压缩文件 zstd file.txt #保留源文件 zstd -k file.txt #指定输出文件名 zstd -o archive.zst file.txt #调整压缩级别 -1 -19高压缩率 zstd -19 file.txt #多线程加速 zstd -T0 file.txt #使用所有的cpu核心 zstd -T4 file.txt #使用4个线程 #查看压缩信息 zstd -l archive.zst #解压缩 zstd -d file.txt.zst unzstd file.txt.zst #unsztd 是zstd -d 的别名 #管道压缩/解压缩 cat file.txt | zstd &gt; file.txt.zst cat file.txt.zst | zstd -d &gt; file.txt rar windows常用的压缩工具，linux需要安装unrar rar命令，支持rar格式，提供高压缩率、分卷压缩、密码保护和恢复记录等功能。 sudo pacman -S rar unrar #压缩文件或目录 a 添加文件到压缩包 rar a archive.rar file1.txt file2.txt rar a -r arhive.rar my_dir/ #-r 递归处理目录 #使用最高的压缩率-m5 rar a -m5 archive.rar large_file.iso #加密压缩 rar a -p archive.rar secret_files rar a -pMyPassword arvchive.rar secret_files #分卷压缩 rar a -v500M archive.rar huge_file #查看压缩包内容 unrar l archive.rar #解压文件 unrar x archive.rar #解压缩目录到当前目录 保留路径 unrar e archive.rar #解压缩到当前目录 不保留路径 unrar x archive.rar /target/path/ #解压缩到指定目录 #测试压缩包的完整性 unrar t archive.rar #删除压缩包内的文件 rar d archive.rar unwanted_file.txt #更新压缩包 添加新文件 rar u archive.rar new_file.txt tar命令 #打包与解包 tar -cvf archive.tar my_dir/ tar -xvf archive.tar tar -xvf archive.tar -C /target/path/ #解包到指定目录 #查看归档内容 tar -tvf archive.tar.gz #排除特定文件 tar -cvf backup.tar --exclude=&#34;*.tmp&#34; --exclude=&#34;logs/&#34; my_dir/ #追加文件 tar -rvf archive.tar new_file.tar #压缩选项 tar -czvf archive.tar.gz tar -cjvf archive.tar.bz2 tar -cJvf archive.tar.xz tar --zstd -cvf archive.tar.zst tar --lz4 -cvf archive.tar.lz4 #增量备份 #首次完整备份 tar -czvf full_backup.tar.gz --listed-incremental=snapshot.file my_dir/ #后续增量备份 tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/compress/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -275,7 +294,7 @@ tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:5000/"
+      href="https://bjmu1026.github.io/blog/"
       >TongXu-Server</a
     >
     <div
@@ -563,11 +582,11 @@ tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:5000/posts/split/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/split/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Split</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:5000/posts/systemd/"
+      href="https://bjmu1026.github.io/blog/posts/systemd/"
       ><span>Systemd</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav><div class="mt-24" id="disqus_thread"></div>
   <script>
@@ -579,7 +598,7 @@ tar -czvf incr_backup.tar.gz --listed-incremental=snapshot.fiel my_dir/
   </script></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:5000/">TongXu-Server</a></div>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

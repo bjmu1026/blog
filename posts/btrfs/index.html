@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="en-us"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=5000&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -105,10 +105,10 @@ chattr &#43;C 目录或文件路径
 
 
 压缩" />
-  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="http://localhost:5000/main.min.css" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
 
   
-  <link rel="preload" as="image" href="http://localhost:5000/theme.svg" />
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
 
   
 
@@ -116,21 +116,70 @@ chattr &#43;C 目录或文件路径
 
   <script
     defer
-    src="http://localhost:5000/highlight.min.js"
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:5000/favicon.ico"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:5000/apple-touch-icon.png"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.152.2">
+  <meta itemprop="name" content="btrfs">
+  <meta itemprop="description" content="btrfs 准备
+安装用户空间工具 btrfs-progs 创建文件系统
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名 #默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB 多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1 mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ... #必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统 profiles btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别 配置文件系统
+COW写时复制
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+禁用COW会禁用数据校验
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
+#禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+  <meta itemprop="datePublished" content="2025-08-11T12:26:47+08:00">
+  <meta itemprop="dateModified" content="2025-08-11T12:26:47+08:00">
+  <meta itemprop="wordCount" content="412"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/btrfs/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="btrfs">
+  <meta property="og:description" content="btrfs 准备
+安装用户空间工具 btrfs-progs 创建文件系统
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名 #默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB 多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1 mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ... #必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统 profiles btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别 配置文件系统
+COW写时复制
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+禁用COW会禁用数据校验
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
+#禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-11T12:26:47+08:00">
+    <meta property="article:modified_time" content="2025-08-11T12:26:47+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="btrfs">
+  <meta name="twitter:description" content="btrfs 准备
+安装用户空间工具 btrfs-progs 创建文件系统
+单设备文件系统
+mkfs.btrfs -L 自定义标签 /dev/分区名 #默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB 多设备文件系统
+#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1 mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ... #必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统 profiles btrfs使用profiles这个概念来表示镜像、奇偶校验和条带属性，对应RAID术语中的RAID级别 配置文件系统
+COW写时复制
+默认btrfs总是对所有文件使用cow,写入操作不会就地覆盖数据，而是将修改后的数据写入新位置，同时更新元数据指向新位置。
+禁用COW会禁用数据校验
+使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。
+#将目录中已存在的所有文件禁用写时复制 mv /path/to/dir /path/to/dir_old mkidr /path/to/dir chattr &#43;C /path/to/dir cp -a --reflink=never /path/to/dir_old/ /paht/to/dir rm -rf /path/ro/dir_old nodatacow会禁用压缩和数据校验和
+#禁用空文件或目录中新文件的COW特性 chattr &#43;C 目录或文件路径 对复制的影响 使用cp复制时，&#43;C属性相当于在目标路径新建的文件，当原文件与目标文件都具有/不具有&#43;C属性时，才能通过reflink进行复制 –reflink =auto 若原文件与目标文件都具有或不具有&#43;C属性，则直接reflink，否则进行深拷贝 –reflink 或 –reflink=always 若原文件与目标文件都具有或不具有&#43;C，则直接reflink，否则报错 –reflink=never 强制深拷贝 对快照的影响 快照会锁定原文件快位置，每一次快照后的第一次写入都会出发写时复制，可以把所有禁用写时复制的文件放在一个单独的子卷中冰面为该子卷创建快照 压缩">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/btrfs/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -140,7 +189,7 @@ chattr &#43;C 目录或文件路径
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:5000/"
+      href="https://bjmu1026.github.io/blog/"
       >TongXu-Server</a
     >
     <div
@@ -523,11 +572,11 @@ btrfs fielsystem df /
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:5000/posts/grub/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/grub/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Grub</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:5000/posts/split/"
+      href="https://bjmu1026.github.io/blog/posts/split/"
       ><span>Split</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav><div class="mt-24" id="disqus_thread"></div>
   <script>
@@ -539,7 +588,7 @@ btrfs fielsystem df /
   </script></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:5000/">TongXu-Server</a></div>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="en-us"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=5000&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -112,10 +112,10 @@ mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动
 
 
 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。" />
-  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="http://localhost:5000/main.min.css" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
 
   
-  <link rel="preload" as="image" href="http://localhost:5000/theme.svg" />
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
 
   
 
@@ -123,21 +123,94 @@ grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting 
 
   <script
     defer
-    src="http://localhost:5000/highlight.min.js"
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:5000/favicon.ico"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:5000/apple-touch-icon.png"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.152.2">
+  <meta itemprop="name" content="Grub">
+  <meta itemprop="description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。 GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。 使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi 安装
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install #否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB #如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目 如果使用–removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+启用安全启动
+GRUB支持CA密钥或者shim进行安全启动。
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock Shim-lock
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+安全启动模式下，不允许使用insmod加载模块。
+根据ubuntu的官方构建脚本，整合下列模块
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo 平台特定模块
+play 启动时播放声音 cpuid 启动时检查cpu功能 tpm 提供可度量启动，可信平台模块支持 高级模块
+cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加密算法 luks 从LUKS加密的磁盘启动 ic|lvm 从LVM逻辑卷启动 mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。">
+  <meta itemprop="datePublished" content="2025-08-16T08:48:49+08:00">
+  <meta itemprop="dateModified" content="2025-08-16T08:48:49+08:00">
+  <meta itemprop="wordCount" content="408"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/grub/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="Grub">
+  <meta property="og:description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。 GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。 使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi 安装
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install #否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB #如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目 如果使用–removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+启用安全启动
+GRUB支持CA密钥或者shim进行安全启动。
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock Shim-lock
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+安全启动模式下，不允许使用insmod加载模块。
+根据ubuntu的官方构建脚本，整合下列模块
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo 平台特定模块
+play 启动时播放声音 cpuid 启动时检查cpu功能 tpm 提供可度量启动，可信平台模块支持 高级模块
+cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加密算法 luks 从LUKS加密的磁盘启动 ic|lvm 从LVM逻辑卷启动 mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-16T08:48:49+08:00">
+    <meta property="article:modified_time" content="2025-08-16T08:48:49+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Grub">
+  <meta name="twitter:description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
+grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
+使用UEFI安装时，一定要让安装介质以UEFI启动，否则efibootmgr无法添加GRUB UEFI启动项。
+要从一个磁盘上使用UEFI启动，必须有一个efi分区。 GRUB能够通过insmod加载额外模块，这时候UEFI无法使用安全启动Secure Boot。 使用了安全启动，要使用grub额外模块，必须通过grub-mkstandalone、grub-install重新安装GRUB，以生成包含所需模块的grubx64.efi 安装
+安装grub 、efibootmgr包，efibootmgr用于grub脚本用来将启动项写入NVROM。
+挂载efi系统分区：选择一个启动引导器标识例如ARCH、GRUB等，将在esp/EFI/中创建一个与标识同名的目录来存储EFI二进制文件。而且这个名字还会用于UEFI启动菜单中区分GRUB启动项。
+执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/
+#需要在chroot之后再运行grub-install #否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB #如果固件启动器数量已满，这个命令会失败，需要使用efibootmgr删除不必要的条目 如果使用–removable选项，那GRUB将会被安装到esp/EFI/BOOT/BOOTX64.EFI，此时即使EFI变量被重设或这你把这个驱动器连接到其他电脑上，你仍可以从这个驱动器上启动。
+启用安全启动
+GRUB支持CA密钥或者shim进行安全启动。
+CA
+grub-intall --target=x86_64-efi --efi-directory=sep --bootloader-id=GRUB --modules=&#34;tpm&#34; --disabel-shim-lock Shim-lock
+当使用shim-lock时，只有GRUB二进制文件包含了全部用于读取含有vmlinuxz和initramfs镜像的文件系统的必要模块时，才可以成功进入安全启动模式。
+安全启动模式下，不允许使用insmod加载模块。
+根据ubuntu的官方构建脚本，整合下列模块
+基础模块
+all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo 平台特定模块
+play 启动时播放声音 cpuid 启动时检查cpu功能 tpm 提供可度量启动，可信平台模块支持 高级模块
+cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加密算法 luks 从LUKS加密的磁盘启动 ic|lvm 从LVM逻辑卷启动 mdraid09\mdraid1x,raid5rec,raid6rec 从raid虚拟磁盘启动 grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/grub/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -147,7 +220,7 @@ grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting 
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:5000/"
+      href="https://bjmu1026.github.io/blog/"
       >TongXu-Server</a
     >
     <div
@@ -552,11 +625,11 @@ grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting 
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:5000/posts/font/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/font/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Font</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:5000/posts/btrfs/"
+      href="https://bjmu1026.github.io/blog/posts/btrfs/"
       ><span>btrfs</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav><div class="mt-24" id="disqus_thread"></div>
   <script>
@@ -568,7 +641,7 @@ grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting 
   </script></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:5000/">TongXu-Server</a></div>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️
