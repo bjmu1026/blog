@@ -1,0 +1,325 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>ssh-keygen-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="ssh-keygen
+
+options
+
+-t 指定密钥类型
+-b rsa制定密钥长度2048 4096
+-f 制定输出文件名默认~/.ssh/id_
+-C 为密钥添加注释
+-N 为私钥设置密码
+-p 更改密钥的指纹
+-l 显示密钥的指纹
+-y 从私钥输出公钥
+-O 使用新格式
+-I 指定证书的身份标识
+-s 制定ca密钥用于签名证书
+-Y 设置证书有效期
+
+rsa密钥
+
+ssh-keygen -t rsa -b 4096 -C &#34;user@example.com&#34;
+#添加公钥到服务器
+ssh-copy-id user@remote_host
+#手动复制
+cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+
+ed25519密钥
+
+ssh-keygen -t ed25519 -C &#34;user@example.com&#34;
+
+查看密钥指纹
+
+ssh-keygen -l -f ~/.ssh/id_rsa
+
+添加或修改私钥的密码
+
+ssh-keygen -p -f ~/.ssh/id_rsa
+
+从私钥提取公钥
+
+ssh-keygen -y -f ~/.ssh/id_rsa
+
+ssh证书
+
+#常见ca证书
+ssh-keygen -t ed25519 -f ssh_ca -C &#34;CA_key&#34; 
+#生成用户密钥
+ssh-keygen -t ed25519 -f user_key -C &#34;user_key&#34;
+#用ca签名用户公钥
+ssh-keygen -s ssh_ca -I user_id -n user -V &#43;1w user_key.pub
+#将ca公钥加入服务器的/etc/ssh/sshd_config
+#客户端使用证书登陆
+ssh -i user_key -i user_key-cert.pub user@server
+
+转换pem密钥格式
+
+ssh-keygen -e -f ~/.ssh/id_rsa -m PEM &gt; id_rsa.pem 
+ssh-keygen -i -f id_rsa.pem &gt; id_ras_openssh
+
+为ssh服务器生成主机密钥
+
+sudo ssh-keygen 0t ed25519 -f /etc/ssh/ssh_host_ed2519_key -N &#34;&#34;
+sudo systemctl restart sshd
+
+签名和验证数据
+
+echo &#34;hello,world&#34; &gt; data.txt
+ssh-keygen -Y sign -f ~/.ssh/id_ed25519 -n file data.txt
+ssh-keygen -Y verify -f ~/.ssh/id_ed25519.pub -n file -I user@example.com -s data.txt.sig &lt; data.txt
+
+管理known_hosts
+
+ssh-keygen -R remote_host
+#从~/.ssh/known_hosts删除条目
+" />
+  <meta name="author" content="TongXu-Server" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.png" />
+
+  
+
+  
+
+  <script
+    defer
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.152.2">
+  <meta itemprop="name" content="ssh-keygen">
+  <meta itemprop="description" content="ssh-keygen options -t 指定密钥类型 -b rsa制定密钥长度2048 4096 -f 制定输出文件名默认~/.ssh/id_ -C 为密钥添加注释 -N 为私钥设置密码 -p 更改密钥的指纹 -l 显示密钥的指纹 -y 从私钥输出公钥 -O 使用新格式 -I 指定证书的身份标识 -s 制定ca密钥用于签名证书 -Y 设置证书有效期 rsa密钥 ssh-keygen -t rsa -b 4096 -C &#34;user@example.com&#34; #添加公钥到服务器 ssh-copy-id user@remote_host #手动复制 cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys ed25519密钥 ssh-keygen -t ed25519 -C &#34;user@example.com&#34; 查看密钥指纹 ssh-keygen -l -f ~/.ssh/id_rsa 添加或修改私钥的密码 ssh-keygen -p -f ~/.ssh/id_rsa 从私钥提取公钥 ssh-keygen -y -f ~/.ssh/id_rsa ssh证书 #常见ca证书 ssh-keygen -t ed25519 -f ssh_ca -C &#34;CA_key&#34; #生成用户密钥 ssh-keygen -t ed25519 -f user_key -C &#34;user_key&#34; #用ca签名用户公钥 ssh-keygen -s ssh_ca -I user_id -n user -V &#43;1w user_key.pub #将ca公钥加入服务器的/etc/ssh/sshd_config #客户端使用证书登陆 ssh -i user_key -i user_key-cert.pub user@server 转换pem密钥格式 ssh-keygen -e -f ~/.ssh/id_rsa -m PEM &gt; id_rsa.pem ssh-keygen -i -f id_rsa.pem &gt; id_ras_openssh 为ssh服务器生成主机密钥 sudo ssh-keygen 0t ed25519 -f /etc/ssh/ssh_host_ed2519_key -N &#34;&#34; sudo systemctl restart sshd 签名和验证数据 echo &#34;hello,world&#34; &gt; data.txt ssh-keygen -Y sign -f ~/.ssh/id_ed25519 -n file data.txt ssh-keygen -Y verify -f ~/.ssh/id_ed25519.pub -n file -I user@example.com -s data.txt.sig &lt; data.txt 管理known_hosts ssh-keygen -R remote_host #从~/.ssh/known_hosts删除条目">
+  <meta itemprop="datePublished" content="2025-11-01T23:10:12+08:00">
+  <meta itemprop="dateModified" content="2025-11-01T23:10:12+08:00">
+  <meta itemprop="wordCount" content="159"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/ssh-keygen/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="ssh-keygen">
+  <meta property="og:description" content="ssh-keygen options -t 指定密钥类型 -b rsa制定密钥长度2048 4096 -f 制定输出文件名默认~/.ssh/id_ -C 为密钥添加注释 -N 为私钥设置密码 -p 更改密钥的指纹 -l 显示密钥的指纹 -y 从私钥输出公钥 -O 使用新格式 -I 指定证书的身份标识 -s 制定ca密钥用于签名证书 -Y 设置证书有效期 rsa密钥 ssh-keygen -t rsa -b 4096 -C &#34;user@example.com&#34; #添加公钥到服务器 ssh-copy-id user@remote_host #手动复制 cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys ed25519密钥 ssh-keygen -t ed25519 -C &#34;user@example.com&#34; 查看密钥指纹 ssh-keygen -l -f ~/.ssh/id_rsa 添加或修改私钥的密码 ssh-keygen -p -f ~/.ssh/id_rsa 从私钥提取公钥 ssh-keygen -y -f ~/.ssh/id_rsa ssh证书 #常见ca证书 ssh-keygen -t ed25519 -f ssh_ca -C &#34;CA_key&#34; #生成用户密钥 ssh-keygen -t ed25519 -f user_key -C &#34;user_key&#34; #用ca签名用户公钥 ssh-keygen -s ssh_ca -I user_id -n user -V &#43;1w user_key.pub #将ca公钥加入服务器的/etc/ssh/sshd_config #客户端使用证书登陆 ssh -i user_key -i user_key-cert.pub user@server 转换pem密钥格式 ssh-keygen -e -f ~/.ssh/id_rsa -m PEM &gt; id_rsa.pem ssh-keygen -i -f id_rsa.pem &gt; id_ras_openssh 为ssh服务器生成主机密钥 sudo ssh-keygen 0t ed25519 -f /etc/ssh/ssh_host_ed2519_key -N &#34;&#34; sudo systemctl restart sshd 签名和验证数据 echo &#34;hello,world&#34; &gt; data.txt ssh-keygen -Y sign -f ~/.ssh/id_ed25519 -n file data.txt ssh-keygen -Y verify -f ~/.ssh/id_ed25519.pub -n file -I user@example.com -s data.txt.sig &lt; data.txt 管理known_hosts ssh-keygen -R remote_host #从~/.ssh/known_hosts删除条目">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-01T23:10:12+08:00">
+    <meta property="article:modified_time" content="2025-11-01T23:10:12+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ssh-keygen">
+  <meta name="twitter:description" content="ssh-keygen options -t 指定密钥类型 -b rsa制定密钥长度2048 4096 -f 制定输出文件名默认~/.ssh/id_ -C 为密钥添加注释 -N 为私钥设置密码 -p 更改密钥的指纹 -l 显示密钥的指纹 -y 从私钥输出公钥 -O 使用新格式 -I 指定证书的身份标识 -s 制定ca密钥用于签名证书 -Y 设置证书有效期 rsa密钥 ssh-keygen -t rsa -b 4096 -C &#34;user@example.com&#34; #添加公钥到服务器 ssh-copy-id user@remote_host #手动复制 cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys ed25519密钥 ssh-keygen -t ed25519 -C &#34;user@example.com&#34; 查看密钥指纹 ssh-keygen -l -f ~/.ssh/id_rsa 添加或修改私钥的密码 ssh-keygen -p -f ~/.ssh/id_rsa 从私钥提取公钥 ssh-keygen -y -f ~/.ssh/id_rsa ssh证书 #常见ca证书 ssh-keygen -t ed25519 -f ssh_ca -C &#34;CA_key&#34; #生成用户密钥 ssh-keygen -t ed25519 -f user_key -C &#34;user_key&#34; #用ca签名用户公钥 ssh-keygen -s ssh_ca -I user_id -n user -V &#43;1w user_key.pub #将ca公钥加入服务器的/etc/ssh/sshd_config #客户端使用证书登陆 ssh -i user_key -i user_key-cert.pub user@server 转换pem密钥格式 ssh-keygen -e -f ~/.ssh/id_rsa -m PEM &gt; id_rsa.pem ssh-keygen -i -f id_rsa.pem &gt; id_ras_openssh 为ssh服务器生成主机密钥 sudo ssh-keygen 0t ed25519 -f /etc/ssh/ssh_host_ed2519_key -N &#34;&#34; sudo systemctl restart sshd 签名和验证数据 echo &#34;hello,world&#34; &gt; data.txt ssh-keygen -Y sign -f ~/.ssh/id_ed25519 -n file data.txt ssh-keygen -Y verify -f ~/.ssh/id_ed25519.pub -n file -I user@example.com -s data.txt.sig &lt; data.txt 管理known_hosts ssh-keygen -R remote_host #从~/.ssh/known_hosts删除条目">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/ssh-keygen/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://bjmu1026.github.io/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">ssh-keygen</h1><div class="text-xs antialiased opacity-60"><time>Nov 1, 2025</time></div></header>
+
+  <section><h3 id="ssh-keygen">ssh-keygen</h3>
+<ul>
+<li>options</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>-t 指定密钥类型
+</span></span><span style="display:flex;"><span>-b rsa制定密钥长度2048 <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>-f 制定输出文件名默认~/.ssh/id_
+</span></span><span style="display:flex;"><span>-C 为密钥添加注释
+</span></span><span style="display:flex;"><span>-N 为私钥设置密码
+</span></span><span style="display:flex;"><span>-p 更改密钥的指纹
+</span></span><span style="display:flex;"><span>-l 显示密钥的指纹
+</span></span><span style="display:flex;"><span>-y 从私钥输出公钥
+</span></span><span style="display:flex;"><span>-O 使用新格式
+</span></span><span style="display:flex;"><span>-I 指定证书的身份标识
+</span></span><span style="display:flex;"><span>-s 制定ca密钥用于签名证书
+</span></span><span style="display:flex;"><span>-Y 设置证书有效期
+</span></span></code></pre></div><ul>
+<li>rsa密钥</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;user@example.com&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#添加公钥到服务器</span>
+</span></span><span style="display:flex;"><span>ssh-copy-id user@remote_host
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#手动复制</span>
+</span></span><span style="display:flex;"><span>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</span></span></code></pre></div><ul>
+<li>ed25519密钥</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t ed25519 -C <span style="color:#e6db74">&#34;user@example.com&#34;</span>
+</span></span></code></pre></div><ul>
+<li>查看密钥指纹</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -l -f ~/.ssh/id_rsa
+</span></span></code></pre></div><ul>
+<li>添加或修改私钥的密码</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -p -f ~/.ssh/id_rsa
+</span></span></code></pre></div><ul>
+<li>从私钥提取公钥</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -y -f ~/.ssh/id_rsa
+</span></span></code></pre></div><ul>
+<li>ssh证书</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#常见ca证书</span>
+</span></span><span style="display:flex;"><span>ssh-keygen -t ed25519 -f ssh_ca -C <span style="color:#e6db74">&#34;CA_key&#34;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#生成用户密钥</span>
+</span></span><span style="display:flex;"><span>ssh-keygen -t ed25519 -f user_key -C <span style="color:#e6db74">&#34;user_key&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#用ca签名用户公钥</span>
+</span></span><span style="display:flex;"><span>ssh-keygen -s ssh_ca -I user_id -n user -V +1w user_key.pub
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#将ca公钥加入服务器的/etc/ssh/sshd_config</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#客户端使用证书登陆</span>
+</span></span><span style="display:flex;"><span>ssh -i user_key -i user_key-cert.pub user@server
+</span></span></code></pre></div><ul>
+<li>转换pem密钥格式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -e -f ~/.ssh/id_rsa -m PEM &gt; id_rsa.pem 
+</span></span><span style="display:flex;"><span>ssh-keygen -i -f id_rsa.pem &gt; id_ras_openssh
+</span></span></code></pre></div><ul>
+<li>为ssh服务器生成主机密钥</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo ssh-keygen 0t ed25519 -f /etc/ssh/ssh_host_ed2519_key -N <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>sudo systemctl restart sshd
+</span></span></code></pre></div><ul>
+<li>签名和验证数据</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;hello,world&#34;</span> &gt; data.txt
+</span></span><span style="display:flex;"><span>ssh-keygen -Y sign -f ~/.ssh/id_ed25519 -n file data.txt
+</span></span><span style="display:flex;"><span>ssh-keygen -Y verify -f ~/.ssh/id_ed25519.pub -n file -I user@example.com -s data.txt.sig &lt; data.txt
+</span></span></code></pre></div><ul>
+<li>管理known_hosts</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -R remote_host
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#从~/.ssh/known_hosts删除条目</span>
+</span></span></code></pre></div></section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/btrfs-arch-wiki/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>btrfs-archlinux-wiki</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://bjmu1026.github.io/blog/posts/archlinux_install/"
+      ><span>Archlinux_install</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
