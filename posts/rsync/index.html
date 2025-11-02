@@ -77,10 +77,10 @@ rsync -av --progress --delete --link-dest /compare/path /source/path /target/pat
 #这个命令第一次是全量备份，后面对是增量备份
 
 " />
-  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/main.min.css" />
 
   
-  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/theme.svg" />
 
   
 
@@ -88,18 +88,18 @@ rsync -av --progress --delete --link-dest /compare/path /source/path /target/pat
 
   <script
     defer
-    src="https://bjmu1026.github.io/blog/highlight.min.js"
+    src="https://bjmu1026.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://bjmu1026.github.io/blog/favicon.ico"
+    href="https://bjmu1026.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
+    href="https://bjmu1026.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.152.2">
@@ -110,7 +110,7 @@ sudo pacman -S rsync 基本用法
 rsync -r source destination #r表示递归，必须要此参数，否则rsync启动不成功 rsync -r source1 source2 destination #source1 source2都会被同步到destination rsync -a source destination #a除了可以同步以外，还可以同步元信息，比如修改时间，权限等 rsync -anv sour/ destination #-n --dry-run模拟执行的结果 rsync -av --delete source/ destination #将删除只存在于目标目录，不存在于源目录的文件 #--exclude 排除文件 rsync -av --exclude=&#39;*.txt&#39; source/ destination rsync -av --exclude=&#39;.*&#39; source/ destination rsync -av --exclude=&#39;file1.txt&#39; --exclude=&#39;dir1/*&#39; source/ destination rsync -av --exclude={&#39;file1.txt&#39;.&#39;dir1/*&#39;} source destination rsync -av --exclude=&#39;exclude-file.txt&#39; source/ destination #--include 指定必须同步的文件模式 rsync -av --include=&#39;*.txt&#39; --exclude=&#39;*&#39; source/ destination #ssh协议 rsync -av source/ username@remote_host:destination rsync -av username@remote_host:source/ destination #若ssh有附加参数 rsync -av --progress -e &#39;ssh -p 2244&#39; source/ user@remote_host:destination #rsync协议 #如果另一台服务器安装了rsync守护程序 rsync -av source/ 192.168.10.254::module/destination #module是rsync守护程序制定的一个资源名，有管理元分配， #rsync rsync://192.168.10.254 可以查看rsync守护程序所有的module列表 #增量备份 rsync -av --progress --delete --link-dest /compare/path /source/path /target/path #--link-dest 指定基准目录compare/path，源目录和基准目录比较，找出变动的文件，将他们拷贝到目标目录/target/path中，那些没变动的目录会生成硬链接。 #这个命令第一次是全量备份，后面对是增量备份">
   <meta itemprop="datePublished" content="2025-03-19T13:36:49+08:00">
   <meta itemprop="dateModified" content="2025-03-19T13:36:49+08:00">
-  <meta itemprop="wordCount" content="116"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/rsync/">
+  <meta itemprop="wordCount" content="116"><meta property="og:url" content="https://bjmu1026.github.io/posts/rsync/">
   <meta property="og:site_name" content="TongXu-Server">
   <meta property="og:title" content="Rsync">
   <meta property="og:description" content="remote sync 远程同步
@@ -130,7 +130,7 @@ rsync -r source destination #r表示递归，必须要此参数，否则rsync启
 sudo pacman -S rsync 基本用法
 rsync -r source destination #r表示递归，必须要此参数，否则rsync启动不成功 rsync -r source1 source2 destination #source1 source2都会被同步到destination rsync -a source destination #a除了可以同步以外，还可以同步元信息，比如修改时间，权限等 rsync -anv sour/ destination #-n --dry-run模拟执行的结果 rsync -av --delete source/ destination #将删除只存在于目标目录，不存在于源目录的文件 #--exclude 排除文件 rsync -av --exclude=&#39;*.txt&#39; source/ destination rsync -av --exclude=&#39;.*&#39; source/ destination rsync -av --exclude=&#39;file1.txt&#39; --exclude=&#39;dir1/*&#39; source/ destination rsync -av --exclude={&#39;file1.txt&#39;.&#39;dir1/*&#39;} source destination rsync -av --exclude=&#39;exclude-file.txt&#39; source/ destination #--include 指定必须同步的文件模式 rsync -av --include=&#39;*.txt&#39; --exclude=&#39;*&#39; source/ destination #ssh协议 rsync -av source/ username@remote_host:destination rsync -av username@remote_host:source/ destination #若ssh有附加参数 rsync -av --progress -e &#39;ssh -p 2244&#39; source/ user@remote_host:destination #rsync协议 #如果另一台服务器安装了rsync守护程序 rsync -av source/ 192.168.10.254::module/destination #module是rsync守护程序制定的一个资源名，有管理元分配， #rsync rsync://192.168.10.254 可以查看rsync守护程序所有的module列表 #增量备份 rsync -av --progress --delete --link-dest /compare/path /source/path /target/path #--link-dest 指定基准目录compare/path，源目录和基准目录比较，找出变动的文件，将他们拷贝到目标目录/target/path中，那些没变动的目录会生成硬链接。 #这个命令第一次是全量备份，后面对是增量备份">
 
-  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/rsync/" />
+  <link rel="canonical" href="https://bjmu1026.github.io/posts/rsync/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -140,7 +140,7 @@ rsync -r source destination #r表示递归，必须要此参数，否则rsync启
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://bjmu1026.github.io/blog/"
+      href="https://bjmu1026.github.io/"
       >TongXu-Server</a
     >
     <div
@@ -266,11 +266,11 @@ rsync -r source destination #r表示递归，必须要此参数，否则rsync启
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/nasm/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/posts/nasm/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Nasm</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://bjmu1026.github.io/blog/posts/rust/"
+      href="https://bjmu1026.github.io/posts/rust/"
       ><span>Rust</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav><div class="mt-24" id="disqus_thread"></div>
   <script>
@@ -282,7 +282,7 @@ rsync -r source destination #r表示递归，必须要此参数，否则rsync启
   </script></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/">TongXu-Server</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️
