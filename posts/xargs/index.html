@@ -101,10 +101,10 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
 #--max-procs 0表示不限制进程数量
 #--max-procs 2表示使用2个进程执行命令
 " />
-  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/main.min.css" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
 
   
-  <link rel="preload" as="image" href="https://bjmu1026.github.io/theme.svg" />
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
 
   
 
@@ -112,18 +112,18 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
 
   <script
     defer
-    src="https://bjmu1026.github.io/highlight.min.js"
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://bjmu1026.github.io/favicon.ico"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://bjmu1026.github.io/apple-touch-icon.png"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.152.2">
@@ -131,7 +131,7 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
   <meta itemprop="description" content="xargs命令 将标准输入转换为命令行参数 #grep可以接受标准输入作为参数 cat /etc/passwd | grep root # grep root /etc/passwd #echo不接受标准输入作为参数 echo &#34;hello world&#34; | echo 执行错误 xargs的单独使用 xargs == xargs echo # 后面的命令默认为echo #xargs 执行后输入hello,按ctr&#43;D 执行echo打印 xargs hello(^D) hello # $xargs find -name &#34;*.txt&#34; ./foo.txt ./hello.txt -d参数与分隔符 #默认使用换行符和空格作为分隔符，把标准输入分解成一个个命令行参数 echo &#34;one two three&#34; | xargs mkdir #使用制表符作为分隔符 echo -e &#34;a\tb\tc&#34; | xargs -d &#34;\t&#34; echo -p 与 -t参数 #-p打印出要执行的命令，询问是否执行，输入y后才会正真执行 echo &#34;one two three&#34; | xargs -p touch $touch one two three?... #询问是否执行 #-t打印出最终要执行的命令，直接执行，不需要用户确认 echo &#34;one two three&#34; | xargs -t rm $rm one two three #打印并直接执行 -0参数与find的配合 #print0 制定输出的文件列表以null分隔，xargs -0 参数表示用null作为分隔符 find /path -type f -print0 | xargs -0 rm -L参数与-n参数 #标准输入包含多行时，-L指定多少行作为一个命令行参数 xargs find -name &#34;*.txt&#34; &#34;*.md&#34; #报错 find 命令不能同时接受两个通配符 #使用-L参数指定每一行作为一个命令行参数，就不会报错 xargs -L 1 find -name &#34;*.txt&#34; $./foo.txt $./hello.txt &#34;*.md&#34; $./README.md #同一行输入多项，使用-n参数指定每次将动少项作为命令行参数 xargs -n 1 find -name &#34;*.txt&#34; &#34;*.md&#34; -I参数 将命令行参数传给多个命令 cat foo.txt | xargs -I file sh -c &#34;echo file;mkdir file&#34; #-I file中file是命令行参数的替代字符串 –max-procs 参数 #默认xargs只使用一个进程执行命令，如果命令要执行多次，必须等上一次的命令执行玩，才能执行下一次 docker ps -q | xargs -n 1 --max-procs 0 docker kill #--max-procs 0表示不限制进程数量 #--max-procs 2表示使用2个进程执行命令">
   <meta itemprop="datePublished" content="2025-06-06T21:27:47+08:00">
   <meta itemprop="dateModified" content="2025-06-06T21:27:47+08:00">
-  <meta itemprop="wordCount" content="164"><meta property="og:url" content="https://bjmu1026.github.io/posts/xargs/">
+  <meta itemprop="wordCount" content="164"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/xargs/">
   <meta property="og:site_name" content="TongXu-Server">
   <meta property="og:title" content="Xargs">
   <meta property="og:description" content="xargs命令 将标准输入转换为命令行参数 #grep可以接受标准输入作为参数 cat /etc/passwd | grep root # grep root /etc/passwd #echo不接受标准输入作为参数 echo &#34;hello world&#34; | echo 执行错误 xargs的单独使用 xargs == xargs echo # 后面的命令默认为echo #xargs 执行后输入hello,按ctr&#43;D 执行echo打印 xargs hello(^D) hello # $xargs find -name &#34;*.txt&#34; ./foo.txt ./hello.txt -d参数与分隔符 #默认使用换行符和空格作为分隔符，把标准输入分解成一个个命令行参数 echo &#34;one two three&#34; | xargs mkdir #使用制表符作为分隔符 echo -e &#34;a\tb\tc&#34; | xargs -d &#34;\t&#34; echo -p 与 -t参数 #-p打印出要执行的命令，询问是否执行，输入y后才会正真执行 echo &#34;one two three&#34; | xargs -p touch $touch one two three?... #询问是否执行 #-t打印出最终要执行的命令，直接执行，不需要用户确认 echo &#34;one two three&#34; | xargs -t rm $rm one two three #打印并直接执行 -0参数与find的配合 #print0 制定输出的文件列表以null分隔，xargs -0 参数表示用null作为分隔符 find /path -type f -print0 | xargs -0 rm -L参数与-n参数 #标准输入包含多行时，-L指定多少行作为一个命令行参数 xargs find -name &#34;*.txt&#34; &#34;*.md&#34; #报错 find 命令不能同时接受两个通配符 #使用-L参数指定每一行作为一个命令行参数，就不会报错 xargs -L 1 find -name &#34;*.txt&#34; $./foo.txt $./hello.txt &#34;*.md&#34; $./README.md #同一行输入多项，使用-n参数指定每次将动少项作为命令行参数 xargs -n 1 find -name &#34;*.txt&#34; &#34;*.md&#34; -I参数 将命令行参数传给多个命令 cat foo.txt | xargs -I file sh -c &#34;echo file;mkdir file&#34; #-I file中file是命令行参数的替代字符串 –max-procs 参数 #默认xargs只使用一个进程执行命令，如果命令要执行多次，必须等上一次的命令执行玩，才能执行下一次 docker ps -q | xargs -n 1 --max-procs 0 docker kill #--max-procs 0表示不限制进程数量 #--max-procs 2表示使用2个进程执行命令">
@@ -145,7 +145,7 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
   <meta name="twitter:title" content="Xargs">
   <meta name="twitter:description" content="xargs命令 将标准输入转换为命令行参数 #grep可以接受标准输入作为参数 cat /etc/passwd | grep root # grep root /etc/passwd #echo不接受标准输入作为参数 echo &#34;hello world&#34; | echo 执行错误 xargs的单独使用 xargs == xargs echo # 后面的命令默认为echo #xargs 执行后输入hello,按ctr&#43;D 执行echo打印 xargs hello(^D) hello # $xargs find -name &#34;*.txt&#34; ./foo.txt ./hello.txt -d参数与分隔符 #默认使用换行符和空格作为分隔符，把标准输入分解成一个个命令行参数 echo &#34;one two three&#34; | xargs mkdir #使用制表符作为分隔符 echo -e &#34;a\tb\tc&#34; | xargs -d &#34;\t&#34; echo -p 与 -t参数 #-p打印出要执行的命令，询问是否执行，输入y后才会正真执行 echo &#34;one two three&#34; | xargs -p touch $touch one two three?... #询问是否执行 #-t打印出最终要执行的命令，直接执行，不需要用户确认 echo &#34;one two three&#34; | xargs -t rm $rm one two three #打印并直接执行 -0参数与find的配合 #print0 制定输出的文件列表以null分隔，xargs -0 参数表示用null作为分隔符 find /path -type f -print0 | xargs -0 rm -L参数与-n参数 #标准输入包含多行时，-L指定多少行作为一个命令行参数 xargs find -name &#34;*.txt&#34; &#34;*.md&#34; #报错 find 命令不能同时接受两个通配符 #使用-L参数指定每一行作为一个命令行参数，就不会报错 xargs -L 1 find -name &#34;*.txt&#34; $./foo.txt $./hello.txt &#34;*.md&#34; $./README.md #同一行输入多项，使用-n参数指定每次将动少项作为命令行参数 xargs -n 1 find -name &#34;*.txt&#34; &#34;*.md&#34; -I参数 将命令行参数传给多个命令 cat foo.txt | xargs -I file sh -c &#34;echo file;mkdir file&#34; #-I file中file是命令行参数的替代字符串 –max-procs 参数 #默认xargs只使用一个进程执行命令，如果命令要执行多次，必须等上一次的命令执行玩，才能执行下一次 docker ps -q | xargs -n 1 --max-procs 0 docker kill #--max-procs 0表示不限制进程数量 #--max-procs 2表示使用2个进程执行命令">
 
-  <link rel="canonical" href="https://bjmu1026.github.io/posts/xargs/" />
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/xargs/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -155,7 +155,7 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://bjmu1026.github.io/"
+      href="https://bjmu1026.github.io/blog/"
       >TongXu-Server</a
     >
     <div
@@ -304,11 +304,11 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/posts/sed/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/sed/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Sed</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://bjmu1026.github.io/posts/hexdump/"
+      href="https://bjmu1026.github.io/blog/posts/hexdump/"
       ><span>Hexdump</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav><div class="mt-24" id="disqus_thread"></div>
   <script>
@@ -320,7 +320,7 @@ docker ps -q | xargs -n 1 --max-procs 0 docker kill
   </script></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/">TongXu-Server</a></div>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

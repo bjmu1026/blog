@@ -68,10 +68,10 @@ btrfs subvolume delete /path
 #挂载参数
 noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefrag 
 " />
-  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/main.min.css" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
 
   
-  <link rel="preload" as="image" href="https://bjmu1026.github.io/theme.svg" />
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
 
   
 
@@ -79,18 +79,18 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
 
   <script
     defer
-    src="https://bjmu1026.github.io/highlight.min.js"
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://bjmu1026.github.io/favicon.ico"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://bjmu1026.github.io/apple-touch-icon.png"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.152.2">
@@ -98,7 +98,7 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
   <meta itemprop="description" content="创建文件系统 #单个设备系统 mkfs.btrfs -L label /dev/sda1 mkfs.btrfs -L label -n 32k /dev/sda #-n 元数据节点大小nodesie 默认16kb 最大64kb #多个设备系统 mkfs.btrfs -L label -d single -m raid1 /dev/sda1 /dev/sdb1 ... #raid0 raid1 raid10 single 写时复制CoW #禁用写时复制cow 空文件或目录中的新文件 chattr &#43;C /path/dir_or_file #cp --reflink=auto / always / never #源文件 与 目标文件都具有或都不具有&#43;C属性时，auto使用reflink,否则深拷贝，always使用reflink否则操作失败，never总是深拷贝 压缩 #支持的算法zlib lzo zstd lzo压缩级别1~9 zstd压缩级别-15~-1 1~15 #挂载compress=zstd:15/no/lzo:1/zlib #会检测数据的首个数据块压缩后大小是否减小，减小后续压缩，未减小整个文件标记为NOCOMPRESS后续都不压缩 #compress-force=zstd 则会检查每个数据块并决定是否压缩 #为现有文件启用压缩 #不会持久化，其他写入操作将应用原有的压缩设置 btrfs -v filesystem defragment -r -czstd -L1 / #持久化启用 chattr &#43;c file btrfs property set file compression zstd 子卷 #btrfs子卷是可独立挂载的posix文件树 ，主要用途是快照 #创建子卷 btrfs subvolume create /path/subvolname btrfs subvolume create /mnt/@home #列出子卷 -t 表格视图 btrfs subvolume list -t /path #删除子卷 btrfs subvolume delete /path #挂载参数 noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefrag">
   <meta itemprop="datePublished" content="2025-11-01T23:12:32+08:00">
   <meta itemprop="dateModified" content="2025-11-01T23:12:32+08:00">
-  <meta itemprop="wordCount" content="111"><meta property="og:url" content="https://bjmu1026.github.io/posts/btrfs-arch-wiki/">
+  <meta itemprop="wordCount" content="111"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/btrfs-arch-wiki/">
   <meta property="og:site_name" content="TongXu-Server">
   <meta property="og:title" content="btrfs-archlinux-wiki">
   <meta property="og:description" content="创建文件系统 #单个设备系统 mkfs.btrfs -L label /dev/sda1 mkfs.btrfs -L label -n 32k /dev/sda #-n 元数据节点大小nodesie 默认16kb 最大64kb #多个设备系统 mkfs.btrfs -L label -d single -m raid1 /dev/sda1 /dev/sdb1 ... #raid0 raid1 raid10 single 写时复制CoW #禁用写时复制cow 空文件或目录中的新文件 chattr &#43;C /path/dir_or_file #cp --reflink=auto / always / never #源文件 与 目标文件都具有或都不具有&#43;C属性时，auto使用reflink,否则深拷贝，always使用reflink否则操作失败，never总是深拷贝 压缩 #支持的算法zlib lzo zstd lzo压缩级别1~9 zstd压缩级别-15~-1 1~15 #挂载compress=zstd:15/no/lzo:1/zlib #会检测数据的首个数据块压缩后大小是否减小，减小后续压缩，未减小整个文件标记为NOCOMPRESS后续都不压缩 #compress-force=zstd 则会检查每个数据块并决定是否压缩 #为现有文件启用压缩 #不会持久化，其他写入操作将应用原有的压缩设置 btrfs -v filesystem defragment -r -czstd -L1 / #持久化启用 chattr &#43;c file btrfs property set file compression zstd 子卷 #btrfs子卷是可独立挂载的posix文件树 ，主要用途是快照 #创建子卷 btrfs subvolume create /path/subvolname btrfs subvolume create /mnt/@home #列出子卷 -t 表格视图 btrfs subvolume list -t /path #删除子卷 btrfs subvolume delete /path #挂载参数 noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefrag">
@@ -112,7 +112,7 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
   <meta name="twitter:title" content="btrfs-archlinux-wiki">
   <meta name="twitter:description" content="创建文件系统 #单个设备系统 mkfs.btrfs -L label /dev/sda1 mkfs.btrfs -L label -n 32k /dev/sda #-n 元数据节点大小nodesie 默认16kb 最大64kb #多个设备系统 mkfs.btrfs -L label -d single -m raid1 /dev/sda1 /dev/sdb1 ... #raid0 raid1 raid10 single 写时复制CoW #禁用写时复制cow 空文件或目录中的新文件 chattr &#43;C /path/dir_or_file #cp --reflink=auto / always / never #源文件 与 目标文件都具有或都不具有&#43;C属性时，auto使用reflink,否则深拷贝，always使用reflink否则操作失败，never总是深拷贝 压缩 #支持的算法zlib lzo zstd lzo压缩级别1~9 zstd压缩级别-15~-1 1~15 #挂载compress=zstd:15/no/lzo:1/zlib #会检测数据的首个数据块压缩后大小是否减小，减小后续压缩，未减小整个文件标记为NOCOMPRESS后续都不压缩 #compress-force=zstd 则会检查每个数据块并决定是否压缩 #为现有文件启用压缩 #不会持久化，其他写入操作将应用原有的压缩设置 btrfs -v filesystem defragment -r -czstd -L1 / #持久化启用 chattr &#43;c file btrfs property set file compression zstd 子卷 #btrfs子卷是可独立挂载的posix文件树 ，主要用途是快照 #创建子卷 btrfs subvolume create /path/subvolname btrfs subvolume create /mnt/@home #列出子卷 -t 表格视图 btrfs subvolume list -t /path #删除子卷 btrfs subvolume delete /path #挂载参数 noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefrag">
 
-  <link rel="canonical" href="https://bjmu1026.github.io/posts/btrfs-arch-wiki/" />
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/btrfs-arch-wiki/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -122,7 +122,7 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://bjmu1026.github.io/"
+      href="https://bjmu1026.github.io/blog/"
       >TongXu-Server</a
     >
     <div
@@ -238,11 +238,11 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/posts/ssh-nopasswd/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://bjmu1026.github.io/blog/posts/ssh-nopasswd/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>ssh-nopasswd login</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://bjmu1026.github.io/posts/ssh-keygen/"
+      href="https://bjmu1026.github.io/blog/posts/ssh-keygen/"
       ><span>ssh-keygen</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav><div class="mt-24" id="disqus_thread"></div>
   <script>
@@ -254,7 +254,7 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
   </script></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/">TongXu-Server</a></div>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️
