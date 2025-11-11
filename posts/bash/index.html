@@ -1,0 +1,798 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Bash-TongXu-Server</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="
+变量
+
+#变量名和等号之间不能有空格
+#变量名通常用大写字母表示
+your_name=&#34;runoob&#34;
+
+#使用变量，变量名前加$
+your_name=&#34;qinjx&#34;
+echo $your_name
+
+#只读变量
+muUrl=&#34;https://www.yourweb.online&#34;
+readonly myUrl
+
+#删除变量
+unset variable_name
+
+变量类型
+
+#字符串变量&#34;fasdf&#34; &#39;fasdf&#39;来定义的字符串
+my_string=&#34;Hello, World!&#34;
+my_string=&#39;Hello, Wolrd!&#39;
+
+#整数变量 declare / typeset 命令来声明整数变量
+declare -i my_integer=42
+
+#数组变量
+my_arr=(1 2 3 4 5)
+#关联数组或字典
+declare -A my_associative_arr=
+my_associative_arr[&#34;name&#34;]=&#34;John&#34;
+
+#环境变量
+echo $PATH #操作系统搜索可执行文件的路径
+
+字符串
+
+#单引号，单引号中的变量是无效的，任何字符都会原样输出
+echo &#39;I want it. $NUM /r/n&#39;
+
+#双引号，可以有变量，可以有转义字符
+echo &#39;I want $NUM, /r/n&#39;
+
+#拼接字符串
+your_name=&#34;runoob&#34;
+greeting=&#34;hello,&#34;$your_name&#34;!&#34;
+greeting1=&#34;hello,${your_name}|&#34;
+
+greetin2=&#39;hello,{$your_name}!&#39;
+greeting3=&#39;hello,${your_name}&#39;
+
+#获取字符串长度
+string=&#34;abcd&#34;
+echo ${#string}
+
+#提取子字符串
+string=&#34;runoob is a great site&#34;
+echo ${string:1:4}
+
+数组
+
+arr=(val0 val1 val2 val3)
+arr=(
+val0
+val1
+val2
+)
+arr[0]=val0
+arr[1]=val1
+
+#读取数组
+${arr[0]}
+echo ${arr[@]} #获取数组中的所有元素
+#获取数组的长度
+length=${#arr[@]}
+
+注释
+
+#单行注释
+#多行注释
+:EOF
+注释内容
+注释内容
+EOF
+
+
+传递参数
+
+#echo $n 
+echo $1 #第一个参数
+# $# 传递的参数个数
+# $$ 当前进程ID
+# $! 后台运行的最后一个进程的ID
+# $@ $* 以一个单字符串显示所有向脚本传递的参数
+# $- 显示shell当前使用选项
+# $? 显示最后命令的退出状态 
+
+# $* $@区别
+#只有在双引号中体现出来，传递了1 2 3 3个 $*相当于传递了一个参数“1 2 3, $@相当于&#34;1&#34; &#34;2&#34; &#34;3&#34;传递了三个参数
+
+
+数组
+
+#定义数组
+arr_name=(val0 val1 val2)
+arr_name[0]=val0
+
+#读取数组
+${arr_name[index]}
+
+#关联数组
+declare -A arr_name
+declare -A site=([&#34;google&#34;]=&#34;www.google.com&#34; [&#34;runoob&#34;]=&#34;www.runoob.com&#34;)
+
+#获取数组中的所有元素
+echo ${arr_name[*]}
+echo ${arr_name[@]}
+
+#获取数组的长度
+echo ${#arr_name[*]}
+echo ${#arr_name[@]}
+
+
+算术运算符
+
+#原生bash不支持数学运算,使用expr或awk实现
+# expr &#43; - * / % = == !=
+val=`expr 2 &#43; 2`
+echo $val
+
+if [ $a == $b ]
+then
+	echo &#34;$a == $b&#34;
+fi
+
+关系运算符
+
+# -eq -ne -gt -lt -ge -le
+a=10
+b=20
+if [ $a -eq $b]
+then
+	echo &#34;$a -eq $b&#34;
+fi
+
+布尔运算符
+
+# ！ NOT -o OR -a AND
+a=10
+b=20
+
+if [ $a -lt $b -a $b -gt 5]
+then
+	echo &#34;it is&#34;
+fi
+
+逻辑运算符
+
+# &amp;&amp; ||
+a=10
+b=20
+if [[ $a -lt  100 &amp;&amp; $b -gt 100 ]]
+then
+	echo &#34;true
+else
+	echo &#34;false&#34;
+fi
+
+字符串运算符
+
+# = != -z长度0,返回true -n长度不为0,返回true $不为空，返回true
+a=&#34;abc&#34;
+b=&#34;efg&#34;
+if [ -z $a ]
+then 
+	echo &#34;$a length is not 0&#34;
+fi
+
+文件测试运算符
+
+# -b file 块设备
+# -c file 字符设备
+# -d file  目录
+# -f file  普通文件
+# -g file  SGID
+# -k file  Sticky bit
+# -p file  管道
+# -u file   SUID
+# -r file   可读
+# -w file   可写
+# -x file   可执行
+# -s file   不为空
+# -e file   存在
+# -L 	symbolic link
+# -S    socket
+
+自增和自减
+
+num=5
+let num&#43;&#43;
+let num--
+echo $num
+
+$(())进行算术运算
+
+num=5
+num=$((num&#43;&#43;))
+echo $num
+
+(())进行算术运算
+
+num=6
+((num&#43;&#43;))
+echo $num
+
+
+流程控制
+
+# if 
+if conditon
+then 
+	command1
+	...
+fi
+
+#if else
+if conditon
+then
+	command
+	...
+else
+	command
+	...
+fi
+
+#elif
+if conditon
+then
+	command
+elif conditon
+	command
+else
+	command
+fi
+
+#for
+for var in val1 val2 val3 ... valN
+do 
+	command
+	...
+done
+
+#while
+while conditon
+do 
+	command
+	...
+done
+#无限循环
+while :
+do 
+	comand
+done
+
+while true
+do
+	comand...
+done
+
+for (( ; ; ))
+
+#until 
+until condtion
+do
+	command
+done
+
+#case 
+case val in 
+	mod1) 
+		command
+		...
+		;;
+	mod2)
+		command
+		;;
+esac
+
+
+函数
+
+function demoFunc(){
+	echo &#34;this is my first shell func&#34;
+}
+demoFunc #执行函数
+
+funWithReturn(){
+	return 3
+}
+
+funWithParam(){
+	for i in ${$@}
+	do
+		echo i
+	done
+}
+" />
+  <meta name="author" content="tongxu" /><link rel="preload stylesheet" as="style" href="https://bjmu1026.github.io/blog/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="https://bjmu1026.github.io/blog/theme.svg" />
+
+  
+
+  
+
+  <script
+    defer
+    src="https://bjmu1026.github.io/blog/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://bjmu1026.github.io/blog/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.152.2">
+  <meta itemprop="name" content="Bash">
+  <meta itemprop="description" content="变量 #变量名和等号之间不能有空格 #变量名通常用大写字母表示 your_name=&#34;runoob&#34; #使用变量，变量名前加$ your_name=&#34;qinjx&#34; echo $your_name #只读变量 muUrl=&#34;https://www.yourweb.online&#34; readonly myUrl #删除变量 unset variable_name 变量类型 #字符串变量&#34;fasdf&#34; &#39;fasdf&#39;来定义的字符串 my_string=&#34;Hello, World!&#34; my_string=&#39;Hello, Wolrd!&#39; #整数变量 declare / typeset 命令来声明整数变量 declare -i my_integer=42 #数组变量 my_arr=(1 2 3 4 5) #关联数组或字典 declare -A my_associative_arr= my_associative_arr[&#34;name&#34;]=&#34;John&#34; #环境变量 echo $PATH #操作系统搜索可执行文件的路径 字符串 #单引号，单引号中的变量是无效的，任何字符都会原样输出 echo &#39;I want it. $NUM /r/n&#39; #双引号，可以有变量，可以有转义字符 echo &#39;I want $NUM, /r/n&#39; #拼接字符串 your_name=&#34;runoob&#34; greeting=&#34;hello,&#34;$your_name&#34;!&#34; greeting1=&#34;hello,${your_name}|&#34; greetin2=&#39;hello,{$your_name}!&#39; greeting3=&#39;hello,${your_name}&#39; #获取字符串长度 string=&#34;abcd&#34; echo ${#string} #提取子字符串 string=&#34;runoob is a great site&#34; echo ${string:1:4} 数组 arr=(val0 val1 val2 val3) arr=( val0 val1 val2 ) arr[0]=val0 arr[1]=val1 #读取数组 ${arr[0]} echo ${arr[@]} #获取数组中的所有元素 #获取数组的长度 length=${#arr[@]} 注释 #单行注释 #多行注释 :EOF 注释内容 注释内容 EOF 传递参数 #echo $n echo $1 #第一个参数 # $# 传递的参数个数 # $$ 当前进程ID # $! 后台运行的最后一个进程的ID # $@ $* 以一个单字符串显示所有向脚本传递的参数 # $- 显示shell当前使用选项 # $? 显示最后命令的退出状态 # $* $@区别 #只有在双引号中体现出来，传递了1 2 3 3个 $*相当于传递了一个参数“1 2 3, $@相当于&#34;1&#34; &#34;2&#34; &#34;3&#34;传递了三个参数 数组 #定义数组 arr_name=(val0 val1 val2) arr_name[0]=val0 #读取数组 ${arr_name[index]} #关联数组 declare -A arr_name declare -A site=([&#34;google&#34;]=&#34;www.google.com&#34; [&#34;runoob&#34;]=&#34;www.runoob.com&#34;) #获取数组中的所有元素 echo ${arr_name[*]} echo ${arr_name[@]} #获取数组的长度 echo ${#arr_name[*]} echo ${#arr_name[@]} 算术运算符 #原生bash不支持数学运算,使用expr或awk实现 # expr &#43; - * / % = == != val=`expr 2 &#43; 2` echo $val if [ $a == $b ] then echo &#34;$a == $b&#34; fi 关系运算符 # -eq -ne -gt -lt -ge -le a=10 b=20 if [ $a -eq $b] then echo &#34;$a -eq $b&#34; fi 布尔运算符 # ！ NOT -o OR -a AND a=10 b=20 if [ $a -lt $b -a $b -gt 5] then echo &#34;it is&#34; fi 逻辑运算符 # &amp;&amp; || a=10 b=20 if [[ $a -lt 100 &amp;&amp; $b -gt 100 ]] then echo &#34;true else echo &#34;false&#34; fi 字符串运算符 # = != -z长度0,返回true -n长度不为0,返回true $不为空，返回true a=&#34;abc&#34; b=&#34;efg&#34; if [ -z $a ] then echo &#34;$a length is not 0&#34; fi 文件测试运算符 # -b file 块设备 # -c file 字符设备 # -d file 目录 # -f file 普通文件 # -g file SGID # -k file Sticky bit # -p file 管道 # -u file SUID # -r file 可读 # -w file 可写 # -x file 可执行 # -s file 不为空 # -e file 存在 # -L symbolic link # -S socket 自增和自减 num=5 let num&#43;&#43; let num-- echo $num $(())进行算术运算 num=5 num=$((num&#43;&#43;)) echo $num (())进行算术运算 num=6 ((num&#43;&#43;)) echo $num 流程控制 # if if conditon then command1 ... fi #if else if conditon then command ... else command ... fi #elif if conditon then command elif conditon command else command fi #for for var in val1 val2 val3 ... valN do command ... done #while while conditon do command ... done #无限循环 while : do comand done while true do comand... done for (( ; ; )) #until until condtion do command done #case case val in mod1) command ... ;; mod2) command ;; esac 函数 function demoFunc(){ echo &#34;this is my first shell func&#34; } demoFunc #执行函数 funWithReturn(){ return 3 } funWithParam(){ for i in ${$@} do echo i done }">
+  <meta itemprop="datePublished" content="2025-11-11T19:58:45+08:00">
+  <meta itemprop="dateModified" content="2025-11-11T19:58:45+08:00">
+  <meta itemprop="wordCount" content="478"><meta property="og:url" content="https://bjmu1026.github.io/blog/posts/bash/">
+  <meta property="og:site_name" content="TongXu-Server">
+  <meta property="og:title" content="Bash">
+  <meta property="og:description" content="变量 #变量名和等号之间不能有空格 #变量名通常用大写字母表示 your_name=&#34;runoob&#34; #使用变量，变量名前加$ your_name=&#34;qinjx&#34; echo $your_name #只读变量 muUrl=&#34;https://www.yourweb.online&#34; readonly myUrl #删除变量 unset variable_name 变量类型 #字符串变量&#34;fasdf&#34; &#39;fasdf&#39;来定义的字符串 my_string=&#34;Hello, World!&#34; my_string=&#39;Hello, Wolrd!&#39; #整数变量 declare / typeset 命令来声明整数变量 declare -i my_integer=42 #数组变量 my_arr=(1 2 3 4 5) #关联数组或字典 declare -A my_associative_arr= my_associative_arr[&#34;name&#34;]=&#34;John&#34; #环境变量 echo $PATH #操作系统搜索可执行文件的路径 字符串 #单引号，单引号中的变量是无效的，任何字符都会原样输出 echo &#39;I want it. $NUM /r/n&#39; #双引号，可以有变量，可以有转义字符 echo &#39;I want $NUM, /r/n&#39; #拼接字符串 your_name=&#34;runoob&#34; greeting=&#34;hello,&#34;$your_name&#34;!&#34; greeting1=&#34;hello,${your_name}|&#34; greetin2=&#39;hello,{$your_name}!&#39; greeting3=&#39;hello,${your_name}&#39; #获取字符串长度 string=&#34;abcd&#34; echo ${#string} #提取子字符串 string=&#34;runoob is a great site&#34; echo ${string:1:4} 数组 arr=(val0 val1 val2 val3) arr=( val0 val1 val2 ) arr[0]=val0 arr[1]=val1 #读取数组 ${arr[0]} echo ${arr[@]} #获取数组中的所有元素 #获取数组的长度 length=${#arr[@]} 注释 #单行注释 #多行注释 :EOF 注释内容 注释内容 EOF 传递参数 #echo $n echo $1 #第一个参数 # $# 传递的参数个数 # $$ 当前进程ID # $! 后台运行的最后一个进程的ID # $@ $* 以一个单字符串显示所有向脚本传递的参数 # $- 显示shell当前使用选项 # $? 显示最后命令的退出状态 # $* $@区别 #只有在双引号中体现出来，传递了1 2 3 3个 $*相当于传递了一个参数“1 2 3, $@相当于&#34;1&#34; &#34;2&#34; &#34;3&#34;传递了三个参数 数组 #定义数组 arr_name=(val0 val1 val2) arr_name[0]=val0 #读取数组 ${arr_name[index]} #关联数组 declare -A arr_name declare -A site=([&#34;google&#34;]=&#34;www.google.com&#34; [&#34;runoob&#34;]=&#34;www.runoob.com&#34;) #获取数组中的所有元素 echo ${arr_name[*]} echo ${arr_name[@]} #获取数组的长度 echo ${#arr_name[*]} echo ${#arr_name[@]} 算术运算符 #原生bash不支持数学运算,使用expr或awk实现 # expr &#43; - * / % = == != val=`expr 2 &#43; 2` echo $val if [ $a == $b ] then echo &#34;$a == $b&#34; fi 关系运算符 # -eq -ne -gt -lt -ge -le a=10 b=20 if [ $a -eq $b] then echo &#34;$a -eq $b&#34; fi 布尔运算符 # ！ NOT -o OR -a AND a=10 b=20 if [ $a -lt $b -a $b -gt 5] then echo &#34;it is&#34; fi 逻辑运算符 # &amp;&amp; || a=10 b=20 if [[ $a -lt 100 &amp;&amp; $b -gt 100 ]] then echo &#34;true else echo &#34;false&#34; fi 字符串运算符 # = != -z长度0,返回true -n长度不为0,返回true $不为空，返回true a=&#34;abc&#34; b=&#34;efg&#34; if [ -z $a ] then echo &#34;$a length is not 0&#34; fi 文件测试运算符 # -b file 块设备 # -c file 字符设备 # -d file 目录 # -f file 普通文件 # -g file SGID # -k file Sticky bit # -p file 管道 # -u file SUID # -r file 可读 # -w file 可写 # -x file 可执行 # -s file 不为空 # -e file 存在 # -L symbolic link # -S socket 自增和自减 num=5 let num&#43;&#43; let num-- echo $num $(())进行算术运算 num=5 num=$((num&#43;&#43;)) echo $num (())进行算术运算 num=6 ((num&#43;&#43;)) echo $num 流程控制 # if if conditon then command1 ... fi #if else if conditon then command ... else command ... fi #elif if conditon then command elif conditon command else command fi #for for var in val1 val2 val3 ... valN do command ... done #while while conditon do command ... done #无限循环 while : do comand done while true do comand... done for (( ; ; )) #until until condtion do command done #case case val in mod1) command ... ;; mod2) command ;; esac 函数 function demoFunc(){ echo &#34;this is my first shell func&#34; } demoFunc #执行函数 funWithReturn(){ return 3 } funWithParam(){ for i in ${$@} do echo i done }">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-11T19:58:45+08:00">
+    <meta property="article:modified_time" content="2025-11-11T19:58:45+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bash">
+  <meta name="twitter:description" content="变量 #变量名和等号之间不能有空格 #变量名通常用大写字母表示 your_name=&#34;runoob&#34; #使用变量，变量名前加$ your_name=&#34;qinjx&#34; echo $your_name #只读变量 muUrl=&#34;https://www.yourweb.online&#34; readonly myUrl #删除变量 unset variable_name 变量类型 #字符串变量&#34;fasdf&#34; &#39;fasdf&#39;来定义的字符串 my_string=&#34;Hello, World!&#34; my_string=&#39;Hello, Wolrd!&#39; #整数变量 declare / typeset 命令来声明整数变量 declare -i my_integer=42 #数组变量 my_arr=(1 2 3 4 5) #关联数组或字典 declare -A my_associative_arr= my_associative_arr[&#34;name&#34;]=&#34;John&#34; #环境变量 echo $PATH #操作系统搜索可执行文件的路径 字符串 #单引号，单引号中的变量是无效的，任何字符都会原样输出 echo &#39;I want it. $NUM /r/n&#39; #双引号，可以有变量，可以有转义字符 echo &#39;I want $NUM, /r/n&#39; #拼接字符串 your_name=&#34;runoob&#34; greeting=&#34;hello,&#34;$your_name&#34;!&#34; greeting1=&#34;hello,${your_name}|&#34; greetin2=&#39;hello,{$your_name}!&#39; greeting3=&#39;hello,${your_name}&#39; #获取字符串长度 string=&#34;abcd&#34; echo ${#string} #提取子字符串 string=&#34;runoob is a great site&#34; echo ${string:1:4} 数组 arr=(val0 val1 val2 val3) arr=( val0 val1 val2 ) arr[0]=val0 arr[1]=val1 #读取数组 ${arr[0]} echo ${arr[@]} #获取数组中的所有元素 #获取数组的长度 length=${#arr[@]} 注释 #单行注释 #多行注释 :EOF 注释内容 注释内容 EOF 传递参数 #echo $n echo $1 #第一个参数 # $# 传递的参数个数 # $$ 当前进程ID # $! 后台运行的最后一个进程的ID # $@ $* 以一个单字符串显示所有向脚本传递的参数 # $- 显示shell当前使用选项 # $? 显示最后命令的退出状态 # $* $@区别 #只有在双引号中体现出来，传递了1 2 3 3个 $*相当于传递了一个参数“1 2 3, $@相当于&#34;1&#34; &#34;2&#34; &#34;3&#34;传递了三个参数 数组 #定义数组 arr_name=(val0 val1 val2) arr_name[0]=val0 #读取数组 ${arr_name[index]} #关联数组 declare -A arr_name declare -A site=([&#34;google&#34;]=&#34;www.google.com&#34; [&#34;runoob&#34;]=&#34;www.runoob.com&#34;) #获取数组中的所有元素 echo ${arr_name[*]} echo ${arr_name[@]} #获取数组的长度 echo ${#arr_name[*]} echo ${#arr_name[@]} 算术运算符 #原生bash不支持数学运算,使用expr或awk实现 # expr &#43; - * / % = == != val=`expr 2 &#43; 2` echo $val if [ $a == $b ] then echo &#34;$a == $b&#34; fi 关系运算符 # -eq -ne -gt -lt -ge -le a=10 b=20 if [ $a -eq $b] then echo &#34;$a -eq $b&#34; fi 布尔运算符 # ！ NOT -o OR -a AND a=10 b=20 if [ $a -lt $b -a $b -gt 5] then echo &#34;it is&#34; fi 逻辑运算符 # &amp;&amp; || a=10 b=20 if [[ $a -lt 100 &amp;&amp; $b -gt 100 ]] then echo &#34;true else echo &#34;false&#34; fi 字符串运算符 # = != -z长度0,返回true -n长度不为0,返回true $不为空，返回true a=&#34;abc&#34; b=&#34;efg&#34; if [ -z $a ] then echo &#34;$a length is not 0&#34; fi 文件测试运算符 # -b file 块设备 # -c file 字符设备 # -d file 目录 # -f file 普通文件 # -g file SGID # -k file Sticky bit # -p file 管道 # -u file SUID # -r file 可读 # -w file 可写 # -x file 可执行 # -s file 不为空 # -e file 存在 # -L symbolic link # -S socket 自增和自减 num=5 let num&#43;&#43; let num-- echo $num $(())进行算术运算 num=5 num=$((num&#43;&#43;)) echo $num (())进行算术运算 num=6 ((num&#43;&#43;)) echo $num 流程控制 # if if conditon then command1 ... fi #if else if conditon then command ... else command ... fi #elif if conditon then command elif conditon command else command fi #for for var in val1 val2 val3 ... valN do command ... done #while while conditon do command ... done #无限循环 while : do comand done while true do comand... done for (( ; ; )) #until until condtion do command done #case case val in mod1) command ... ;; mod2) command ;; esac 函数 function demoFunc(){ echo &#34;this is my first shell func&#34; } demoFunc #执行函数 funWithReturn(){ return 3 } funWithParam(){ for i in ${$@} do echo i done }">
+
+  <link rel="canonical" href="https://bjmu1026.github.io/blog/posts/bash/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://bjmu1026.github.io/blog/"
+      >TongXu-Server</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.svg)_left_center/cover_no-repeat] dark:invert dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  >
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Bash</h1><div class="text-xs antialiased opacity-60"><time>Nov 11, 2025</time></div></header>
+
+  <section><ul>
+<li>变量</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#变量名和等号之间不能有空格</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#变量名通常用大写字母表示</span>
+</span></span><span style="display:flex;"><span>your_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;runoob&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#使用变量，变量名前加$</span>
+</span></span><span style="display:flex;"><span>your_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;qinjx&#34;</span>
+</span></span><span style="display:flex;"><span>echo $your_name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#只读变量</span>
+</span></span><span style="display:flex;"><span>muUrl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.yourweb.online&#34;</span>
+</span></span><span style="display:flex;"><span>readonly myUrl
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#删除变量</span>
+</span></span><span style="display:flex;"><span>unset variable_name
+</span></span></code></pre></div><ul>
+<li>变量类型</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#字符串变量&#34;fasdf&#34; &#39;fasdf&#39;来定义的字符串</span>
+</span></span><span style="display:flex;"><span>my_string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello, World!&#34;</span>
+</span></span><span style="display:flex;"><span>my_string<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Hello, Wolrd!&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#整数变量 declare / typeset 命令来声明整数变量</span>
+</span></span><span style="display:flex;"><span>declare -i my_integer<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#数组变量</span>
+</span></span><span style="display:flex;"><span>my_arr<span style="color:#f92672">=(</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关联数组或字典</span>
+</span></span><span style="display:flex;"><span>declare -A my_associative_arr<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>my_associative_arr<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">]=</span><span style="color:#e6db74">&#34;John&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#环境变量</span>
+</span></span><span style="display:flex;"><span>echo $PATH <span style="color:#75715e">#操作系统搜索可执行文件的路径</span>
+</span></span></code></pre></div><ul>
+<li>字符串</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#单引号，单引号中的变量是无效的，任何字符都会原样输出</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;I want it. $NUM /r/n&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#双引号，可以有变量，可以有转义字符</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;I want $NUM, /r/n&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#拼接字符串</span>
+</span></span><span style="display:flex;"><span>your_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;runoob&#34;</span>
+</span></span><span style="display:flex;"><span>greeting<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello,&#34;</span>$your_name<span style="color:#e6db74">&#34;!&#34;</span>
+</span></span><span style="display:flex;"><span>greeting1<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello,</span><span style="color:#e6db74">${</span>your_name<span style="color:#e6db74">}</span><span style="color:#e6db74">|&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>greetin2<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hello,{$your_name}!&#39;</span>
+</span></span><span style="display:flex;"><span>greeting3<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hello,${your_name}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#获取字符串长度</span>
+</span></span><span style="display:flex;"><span>string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;abcd&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${#</span>string<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#提取子字符串</span>
+</span></span><span style="display:flex;"><span>string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;runoob is a great site&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${</span>string:1:4<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><ul>
+<li>数组</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>arr<span style="color:#f92672">=(</span>val0 val1 val2 val3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>arr<span style="color:#f92672">=(</span>
+</span></span><span style="display:flex;"><span>val0
+</span></span><span style="display:flex;"><span>val1
+</span></span><span style="display:flex;"><span>val2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>arr<span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>val0
+</span></span><span style="display:flex;"><span>arr<span style="color:#f92672">[</span>1<span style="color:#f92672">]=</span>val1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#读取数组</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>arr[0]<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${</span>arr[@]<span style="color:#e6db74">}</span> <span style="color:#75715e">#获取数组中的所有元素</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#获取数组的长度</span>
+</span></span><span style="display:flex;"><span>length<span style="color:#f92672">=</span><span style="color:#e6db74">${#</span>arr[@]<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><ul>
+<li>注释</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#单行注释</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#多行注释</span>
+</span></span><span style="display:flex;"><span>:EOF
+</span></span><span style="display:flex;"><span>注释内容
+</span></span><span style="display:flex;"><span>注释内容
+</span></span><span style="display:flex;"><span>EOF
+</span></span></code></pre></div><hr>
+<ul>
+<li>传递参数</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#echo $n </span>
+</span></span><span style="display:flex;"><span>echo $1 <span style="color:#75715e">#第一个参数</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $# 传递的参数个数</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $$ 当前进程ID</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $! 后台运行的最后一个进程的ID</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $@ $* 以一个单字符串显示所有向脚本传递的参数</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $- 显示shell当前使用选项</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $? 显示最后命令的退出状态 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $* $@区别</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#只有在双引号中体现出来，传递了1 2 3 3个 $*相当于传递了一个参数“1 2 3, $@相当于&#34;1&#34; &#34;2&#34; &#34;3&#34;传递了三个参数</span>
+</span></span></code></pre></div><hr>
+<ul>
+<li>数组</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#定义数组</span>
+</span></span><span style="display:flex;"><span>arr_name<span style="color:#f92672">=(</span>val0 val1 val2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>arr_name<span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>val0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#读取数组</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>arr_name[index]<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关联数组</span>
+</span></span><span style="display:flex;"><span>declare -A arr_name
+</span></span><span style="display:flex;"><span>declare -A site<span style="color:#f92672">=([</span><span style="color:#e6db74">&#34;google&#34;</span><span style="color:#f92672">]=</span><span style="color:#e6db74">&#34;www.google.com&#34;</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;runoob&#34;</span><span style="color:#f92672">]=</span><span style="color:#e6db74">&#34;www.runoob.com&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#获取数组中的所有元素</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${</span>arr_name[*]<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${</span>arr_name[@]<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#获取数组的长度</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${#</span>arr_name[*]<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${#</span>arr_name[@]<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><hr>
+<ul>
+<li>算术运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#原生bash不支持数学运算,使用expr或awk实现</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># expr + - * / % = == !=</span>
+</span></span><span style="display:flex;"><span>val<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>expr <span style="color:#ae81ff">2</span> + 2<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>echo $val
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $a <span style="color:#f92672">==</span> $b <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;</span>$a<span style="color:#e6db74"> == </span>$b<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><ul>
+<li>关系运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># -eq -ne -gt -lt -ge -le</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $a -eq $b<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;</span>$a<span style="color:#e6db74"> -eq </span>$b<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><ul>
+<li>布尔运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># ！ NOT -o OR -a AND</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $a -lt $b -a $b -gt 5<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;it is&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><ul>
+<li>逻辑运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># &amp;&amp; ||</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $a -lt  <span style="color:#ae81ff">100</span> <span style="color:#f92672">&amp;&amp;</span> $b -gt <span style="color:#ae81ff">100</span> <span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">else
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">	echo &#34;</span>false<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">fi
+</span></span></span></code></pre></div><ul>
+<li>字符串运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># = != -z长度0,返回true -n长度不为0,返回true $不为空，返回true</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;abc&#34;</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;efg&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -z $a <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;</span>$a<span style="color:#e6db74"> length is not 0&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><ul>
+<li>文件测试运算符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># -b file 块设备</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -c file 字符设备</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -d file  目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -f file  普通文件</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -g file  SGID</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -k file  Sticky bit</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -p file  管道</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -u file   SUID</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -r file   可读</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -w file   可写</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -x file   可执行</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -s file   不为空</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -e file   存在</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -L 	symbolic link</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -S    socket</span>
+</span></span></code></pre></div><ul>
+<li>自增和自减</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>num<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>let num++
+</span></span><span style="display:flex;"><span>let num--
+</span></span><span style="display:flex;"><span>echo $num
+</span></span></code></pre></div><ul>
+<li>$(())进行算术运算</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>num<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>num<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span>num++<span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>echo $num
+</span></span></code></pre></div><ul>
+<li>(())进行算术运算</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>num<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">((</span>num++<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>echo $num
+</span></span></code></pre></div><hr>
+<ul>
+<li>流程控制</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># if </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> conditon
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>	command1
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#if else</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> conditon
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#elif</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> conditon
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> conditon
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#for</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> var in val1 val2 val3 ... valN
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#while</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> conditon
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#无限循环</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> :
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>	comand
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> true
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	comand...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#f92672">((</span> ; ; <span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#until </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">until</span> condtion
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	command
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#case </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> val in 
+</span></span><span style="display:flex;"><span>	mod1<span style="color:#f92672">)</span> 
+</span></span><span style="display:flex;"><span>		command
+</span></span><span style="display:flex;"><span>		...
+</span></span><span style="display:flex;"><span>		;;
+</span></span><span style="display:flex;"><span>	mod2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>		command
+</span></span><span style="display:flex;"><span>		;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span></code></pre></div><hr>
+<ul>
+<li>函数</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> demoFunc<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;this is my first shell func&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>demoFunc <span style="color:#75715e">#执行函数</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>funWithReturn<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>funWithParam<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> i in <span style="color:#e6db74">${</span>$@<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>		echo i
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div></section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://bjmu1026.github.io/blog/posts/ssh-nopasswd/"
+      ><span>ssh-nopasswd login</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav><div class="mt-24" id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'Tongxu';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="https://bjmu1026.github.io/blog/">TongXu-Server</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
