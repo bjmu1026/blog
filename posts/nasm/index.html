@@ -80,7 +80,7 @@ nasm myfile.asm -dFOO=100 -uFOO #取消FOO宏定义
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.158.0">
   <meta itemprop="name" content="Nasm">
   <meta itemprop="description" content="nasm编译器 开源的汇编语言编译器 # -f 指定编译的文件格式 nasm -f elf myfile.asm #将myfile.asm编译成ELF格式的文件myfile.o nasm -f bin myfile.asm #将myfile.asm编译成纯二进制格式的文件myfile.com nasm -f coff myfile.asm -l myfile.lst #以十六进制代码的形式产生列表文件输出，并让代码显示在左侧 使用 -l 选项并给出列表文件名 # -o 制定编译后的文件名称 nasm -f bin program.asm -o program.com nasm -f bin driver.asm -o driver.sys # -On 指定多遍优化 nasm -f elf -O0 myfile.asm -o program.o nasm -f elf -O1 myfile.asm -o program.o nasm -f elf -On myfile.asm -o program.o # -i 包含文件搜索路径 nasm -i ./macrolib -f obj myfile.asm #在源文件中看到%include操作符的时候，不仅仅在当面目录下搜索给出的文件，还会搜索-i选项在命令行中制定的所有路径 # -p 预包含一个文件 nasm myfile.asm -p myinc.inc #和在头文件中写%include &#34;myinc.inc&#34;然后运行nasm myfile.asm的结果是一样的 # -d 预定义一个宏 nasm myfile.asm -dFOO=1000 #与在源文件中写%define FOO 1000的效果是一样的 # -u 取消一个宏定义 nasm myfile.asm -dFOO=100 -uFOO #取消FOO宏定义">
   <meta itemprop="datePublished" content="2025-06-01T12:36:50+08:00">
@@ -177,13 +177,14 @@ nasm myfile.asm -dFOO=100 -uFOO #取消FOO宏定义
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5">Nasm</h1><div class="text-xs antialiased opacity-60"><time>Jun 1, 2025</time></div></header>
+    <h1 class="my-0! pb-2.5">Nasm</h1><div class="text-xs antialiased opacity-60"><time>Jun 1, 2025</time><span class="mx-1">&middot;</span>
+      <span>Tongxu</span></div></header>
 
   <section><h2 id="nasm编译器">nasm编译器</h2>
 <ul>
 <li>开源的汇编语言编译器</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># -f 指定编译的文件格式</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># -f 指定编译的文件格式</span>
 </span></span><span style="display:flex;"><span>nasm -f elf myfile.asm <span style="color:#75715e">#将myfile.asm编译成ELF格式的文件myfile.o</span>
 </span></span><span style="display:flex;"><span>nasm -f bin myfile.asm <span style="color:#75715e">#将myfile.asm编译成纯二进制格式的文件myfile.com</span>
 </span></span><span style="display:flex;"><span>nasm -f coff myfile.asm -l myfile.lst <span style="color:#75715e">#以十六进制代码的形式产生列表文件输出，并让代码显示在左侧 使用 -l 选项并给出列表文件名</span>

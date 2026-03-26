@@ -89,7 +89,7 @@ awk &#39;$1&gt;2&#39; log.txt
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.158.0">
   <meta itemprop="name" content="Awk">
   <meta itemprop="description" content="awk 语法 awk options `pattern {action}` file options -F &lt;分隔符&gt; 或 –field-separator=&lt;分隔符&gt;: 指定输入字段的分隔符，默认是空格，使用这个选项可以指定不同于默认分隔符的字段分隔符。 -v &lt;变量名&gt;=&lt;值&gt; ：设置awk内部变量的值，可以使用该选项将外部值传递给awk脚本中的变量 -f &lt;脚本文件&gt; 指定一个包含awk脚本的文件，这样可以在文件中编辑较大的awk脚本，然后通过-f选项将其加载。 -V 或–version 显示awk的版本信息 -h 或 –help 显示awk的帮助信息，包括选项和用法示例。 例子 awk &#39;{print}&#39; file #打印整行 awk &#39;{print $1,$2}&#39; file #打印特定列 awk -F &#39;,&#39; &#39;{print $1,$2}&#39; file #使用分隔符指定列 awk &#39;{print NR,$1}&#39; file #打印行数 awk &#39;/pattern/{print NR,$0}&#39; file #打印满足条件的行 awk &#39;{sum &#43;= $1} END {print sum}&#39; file #计算列的总和 awk &#39;max &lt; $1 {max = $1} END {print max}&#39; file #打印最大值 awk &#39;{printf &#34;%-10s %-10s\n&#34;,$1,$2}&#39; file #格式化输出 基本用法 awk &#39;{[pattern] action}&#39; {filenames} awk &#39;{print $1,$4}&#39; log.txt #按空格或tab键分割，输出文件中的1,4项 awk &#39;{printf &#34;%-8s %-10s\n&#34;,$1,$4}&#39; log.txt #格式化输出1,4项 awk -F, &#39;{print $1,$4}&#39; log.txt #使用逗号进行分割 awk -F &#39;[ ,:]&#39; &#39;{print $1,$2}&#39; log.txt #使用多个分隔符，先使用空格再使用，再使用:进行分割 awk -v a=1 &#39;{print $1,$1&#43;a}&#39; log.txt #设置变量 运算符 awk &#39;$1&gt;2&#39; log.txt">
   <meta itemprop="datePublished" content="2025-01-26T12:26:47+08:00">
@@ -186,13 +186,14 @@ awk &#39;$1&gt;2&#39; log.txt
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5">Awk</h1><div class="text-xs antialiased opacity-60"><time>Jan 26, 2025</time></div></header>
+    <h1 class="my-0! pb-2.5">Awk</h1><div class="text-xs antialiased opacity-60"><time>Jan 26, 2025</time><span class="mx-1">&middot;</span>
+      <span>Tongxu</span></div></header>
 
   <section><h3 id="awk">awk</h3>
 <ul>
 <li>语法</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk options <span style="color:#e6db74">`</span>pattern <span style="color:#f92672">{</span>action<span style="color:#f92672">}</span><span style="color:#e6db74">`</span> file
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk options <span style="color:#e6db74">`</span>pattern <span style="color:#f92672">{</span>action<span style="color:#f92672">}</span><span style="color:#e6db74">`</span> file
 </span></span></code></pre></div><ul>
 <li>options
 <ul>
@@ -205,7 +206,7 @@ awk &#39;$1&gt;2&#39; log.txt
 </li>
 <li>例子</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print}&#39;</span> file <span style="color:#75715e">#打印整行</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print}&#39;</span> file <span style="color:#75715e">#打印整行</span>
 </span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print $1,$2}&#39;</span> file  <span style="color:#75715e">#打印特定列</span>
 </span></span><span style="display:flex;"><span>awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{print $1,$2}&#39;</span> file <span style="color:#75715e">#使用分隔符指定列</span>
 </span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print NR,$1}&#39;</span> file <span style="color:#75715e">#打印行数</span>
@@ -216,7 +217,7 @@ awk &#39;$1&gt;2&#39; log.txt
 </span></span></code></pre></div><ul>
 <li>基本用法</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{[pattern] action}&#39;</span> <span style="color:#f92672">{</span>filenames<span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{[pattern] action}&#39;</span> <span style="color:#f92672">{</span>filenames<span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{print $1,$4}&#39;</span> log.txt  <span style="color:#75715e">#按空格或tab键分割，输出文件中的1,4项</span>
 </span></span><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;{printf &#34;%-8s %-10s\n&#34;,$1,$4}&#39;</span> log.txt <span style="color:#75715e">#格式化输出1,4项</span>
 </span></span><span style="display:flex;"><span>awk -F, <span style="color:#e6db74">&#39;{print $1,$4}&#39;</span> log.txt <span style="color:#75715e">#使用逗号进行分割</span>
@@ -225,7 +226,7 @@ awk &#39;$1&gt;2&#39; log.txt
 </span></span></code></pre></div><ul>
 <li>运算符</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;$1&gt;2&#39;</span> log.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>awk <span style="color:#e6db74">&#39;$1&gt;2&#39;</span> log.txt
 </span></span></code></pre></div></section>
 
   <nav

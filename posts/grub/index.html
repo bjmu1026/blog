@@ -137,7 +137,7 @@ grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting 
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.158.0">
   <meta itemprop="name" content="Grub">
   <meta itemprop="description" content="GRUB GRUB(Grand Unified Bootloader)大统一加载器，是一个引导加载程序，当前为GRUB2。原始的GRUB被称为GRUB Legacy。
 grub捆绑了由自己支持的多种文件系统，btrfs、ext4、FAT32、XFS。 使用一个单独的/boot分区，可以规避大部分不兼容问题。 UEFI
@@ -288,7 +288,8 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5">Grub</h1><div class="text-xs antialiased opacity-60"><time>Aug 16, 2025</time></div></header>
+    <h1 class="my-0! pb-2.5">Grub</h1><div class="text-xs antialiased opacity-60"><time>Aug 16, 2025</time><span class="mx-1">&middot;</span>
+      <span>Tongxu</span></div></header>
 
   <section><h3 id="grub">GRUB</h3>
 <ul>
@@ -321,7 +322,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </li>
 <li>
 <p>执行下面命令将GRUB EFI应用grubx64.efi安装到esp/EFI/GRUB/，并将其模块安装到/boot/grub/x86_64-efi/</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#需要在chroot之后再运行grub-install</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#需要在chroot之后再运行grub-install</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#否则需要使用--boot-directory=选项来制定挂载/boot目录的路径，如--boot-directory=/mnt/boot</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>esp --bootloader-id<span style="color:#f92672">=</span>GRUB
@@ -341,7 +342,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </li>
 <li>
 <p>CA</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-intall --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>sep --bootloader-id<span style="color:#f92672">=</span>GRUB --modules<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tpm&#34;</span> --disabel-shim-lock
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-intall --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>sep --bootloader-id<span style="color:#f92672">=</span>GRUB --modules<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tpm&#34;</span> --disabel-shim-lock
 </span></span></code></pre></div></li>
 <li>
 <p>Shim-lock</p>
@@ -357,17 +358,17 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <ol>
 <li>
 <p>基础模块</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>all_video,boot,btrfs,cat,chain,configfile,echo,efifwsetup,efinet,ext2,fat,font,gettext,gfxmenu,gfxterm,gfxterm_background,gzio,halt,help,hfsplus,iso9660,jpeg,keystatus,loadenv，loopback,linux,ls,lsefi,lsefimmap，lsefisystab,lssal,memdisk,mincmd,normal,ntfs,part_apple,part_msdos,part_gpt,password_pbkdf2,png,probe,reboot,regexp,search,search_fs_uuid,search_fs_file,search_label,sleep,smbios,squash4,test,true,video,xfs,zfs,zfscrypt,zfsinfo
 </span></span></code></pre></div></li>
 <li>
 <p>平台特定模块</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>play 启动时播放声音
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>play 启动时播放声音
 </span></span><span style="display:flex;"><span>cpuid 启动时检查cpu功能
 </span></span><span style="display:flex;"><span>tpm 提供可度量启动，可信平台模块支持
 </span></span></code></pre></div></li>
 <li>
 <p>高级模块</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cryptodisk 从dm-crypt加密磁盘启动
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cryptodisk 从dm-crypt加密磁盘启动
 </span></span><span style="display:flex;"><span>gcry_algorithm 支持特定散列和加密算法
 </span></span><span style="display:flex;"><span>luks 从LUKS加密的磁盘启动
 </span></span><span style="display:flex;"><span>ic|lvm 从LVM逻辑卷启动
@@ -377,7 +378,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </li>
 <li>
 <p>grub从UEFI shim加载器启动，还需要一个secure boot advanced targeting SBAT文件/部分包含在efi二进制文件中。在/usr/share/grub/sbat.csv提供了一个简单的SBAT.csv文件。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>sep --modules<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>GRUB_MODULES<span style="color:#e6db74">}</span> --sbat /usr/share/grub/sbat.csv 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>sep --modules<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>GRUB_MODULES<span style="color:#e6db74">}</span> --sbat /usr/share/grub/sbat.csv 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sbsign --key MOK.key --cert MOK.cert --output esp/EFI/GRUB/grubx64.efi esp/EFI/grubx64.efi
 </span></span><span style="display:flex;"><span>
@@ -397,7 +398,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <ul>
 <li>
 <p>每当修改/etc/default/grub 或者 /etc/grub.d/中的文件后，都需要再次生成主配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-mkconfig -o /boot/grub/grub.cfg
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-mkconfig -o /boot/grub/grub.cfg
 </span></span></code></pre></div></li>
 <li>
 <p>自动生成脚本默认将在生成的配置文件中为所有已安装的arch linux 内核添加条目。每次安装内核后都需要重新运行一次grub-mkconfig</p>
@@ -443,7 +444,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <ul>
 <li>
 <p>如果你的/boot或者/使用了LVM确保lvm模块已经预先加载好</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/etc/default/grub
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/etc/default/grub
 </span></span><span style="display:flex;"><span>GRUB_PRELOAD_MODULES<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;... lvm&#34;</span>
 </span></span></code></pre></div></li>
 </ul>
@@ -453,7 +454,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <ul>
 <li>
 <p>需要加载GRUB模块mdraid09 或者 mdraid1x</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/etc/default/grub
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/etc/default/grub
 </span></span><span style="display:flex;"><span>GRUB_PRELOAD_MODULES<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;... mdraid09 mdraid1x&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#/dev/md0写成</span>
 </span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>md/0<span style="color:#f92672">)</span>
@@ -462,7 +463,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </span></span></code></pre></div></li>
 <li>
 <p>如果在/boot分区使用raid1时安装grub</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>i386-pc --debug /dev/sda
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>i386-pc --debug /dev/sda
 </span></span><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>i386-pc --debug /dev/sdb
 </span></span></code></pre></div></li>
 </ul>
@@ -485,7 +486,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <ul>
 <li>
 <p>gpt分区自动挂载使用的systemd-gpt-auto-generator需要LoaderDevicePartUUID UEFI变量以正常工作</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#/boot/grub/grub.cfg</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#/boot/grub/grub.cfg</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$grub_platform<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;efi&#34;</span><span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>	insmod bli
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
@@ -494,7 +495,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </li>
 <li>
 <p>grub启动菜单条目示例</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;System shutdown&#34;</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#34;System shutdown&#34;</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;System shutting down...&#34;</span>
 </span></span><span style="display:flex;"><span>	halt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
@@ -565,13 +566,13 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <ul>
 <li>GRUB的主要功能通过/boot/grub里的模块实现，按需加载。GRUB提供了gurb&gt;正常的shell以及grub rescue&gt;救急shell。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub rescue&gt; set prefix<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub rescue&gt; set prefix<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub
 </span></span><span style="display:flex;"><span>grub rescue&gt; insmod <span style="color:#f92672">(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub/i386-pc/normal.mod
 </span></span><span style="display:flex;"><span>rescue:grub&gt;normal
 </span></span></code></pre></div><ul>
 <li>
 <p>支持对长输出进行分页</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub&gt; set pager <span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grub&gt; set pager <span style="color:#ae81ff">1</span>
 </span></span></code></pre></div></li>
 <li>
 <p>使用命令行引导操作系统</p>
@@ -582,7 +583,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#分区的VBR</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#分区的VBR</span>
 </span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>chainloader +1
 </span></span><span style="display:flex;"><span>boot
@@ -598,7 +599,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 </span></span></code></pre></div><ul>
 <li>急救模式</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#grub rescue&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#grub rescue&gt;</span>
 </span></span><span style="display:flex;"><span>set prefix<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>/boot/grub
 </span></span><span style="display:flex;"><span>insmod linux  <span style="color:#75715e">#启动熟悉的linux和initrd命令的支持</span>
 </span></span><span style="display:flex;"><span>set root<span style="color:#f92672">=(</span>hdx,y<span style="color:#f92672">)</span>
@@ -610,7 +611,7 @@ cryptodisk 从dm-crypt加密磁盘启动 gcry_algorithm 支持特定散列和加
 <p>移除GRUB</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#运行efibootmgr确保安装了其他启动加载器并配置其接管启动引导工作</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#运行efibootmgr确保安装了其他启动加载器并配置其接管启动引导工作</span>
 </span></span><span style="display:flex;"><span>efibootmgr
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#BootOrder: 0003, 0001, 0000, 0002</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Boot0000* Windows Boot Manager HD(2,GPT,uuid)/File(\EFI\Microsoft\Boot\bootmgfw.efi)</span>

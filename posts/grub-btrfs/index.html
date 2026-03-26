@@ -77,7 +77,7 @@ sudo systemctl start grub-btrfsd
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.158.0">
   <meta itemprop="name" content="Grub Btrfs">
   <meta itemprop="description" content="grub-btrfs grub-btrfs是一个增强版的GRUB引导加载器，它能够自动检测并列出btrfs分区上的所有快照，包括手动创建以及由snapper或timeshift工具生成的快照。 能智能地发现/boot分区是否独立，并自动识别内核、initramfs和intel/amd微码。 提供了一个systemd服务，可以自动化更新grub.cfg文件 sudo pacman -S grub-btrfs #在文件/etc/default/grub-btrfs/config中启用快照扫描 GRUB_BTRFS_OVERRIDE_BOOT_PARTITION_DETECTION=&#34;true&#34; #更新GRUB配置 sudo grub-mkconfig -o /boot/grub/grub.cfg grub-btrfsd
 自动更新grub.cfg文件 #sudo vim /usr/lib/systemd/system/grub-btrfsd.service #ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto #配合timeshift的快照 sudo pacman -S inotify-tools #安装依赖 sudo systemctl daemon-reload sudo systemctl enable grub-btrfsd sudo systemctl start grub-btrfsd">
@@ -177,7 +177,8 @@ sudo systemctl start grub-btrfsd
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5">Grub Btrfs</h1><div class="text-xs antialiased opacity-60"><time>Aug 16, 2025</time></div></header>
+    <h1 class="my-0! pb-2.5">Grub Btrfs</h1><div class="text-xs antialiased opacity-60"><time>Aug 16, 2025</time><span class="mx-1">&middot;</span>
+      <span>Tongxu</span></div></header>
 
   <section><h3 id="grub-btrfs">grub-btrfs</h3>
 <ul>
@@ -185,7 +186,7 @@ sudo systemctl start grub-btrfsd
 <li>能智能地发现/boot分区是否独立，并自动识别内核、initramfs和intel/amd微码。</li>
 <li>提供了一个systemd服务，可以自动化更新grub.cfg文件</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo pacman -S grub-btrfs
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo pacman -S grub-btrfs
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#在文件/etc/default/grub-btrfs/config中启用快照扫描</span>
 </span></span><span style="display:flex;"><span>GRUB_BTRFS_OVERRIDE_BOOT_PARTITION_DETECTION<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;true&#34;</span>
 </span></span><span style="display:flex;"><span>
@@ -197,7 +198,7 @@ sudo systemctl start grub-btrfsd
 <ul>
 <li>自动更新grub.cfg文件</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#sudo vim /usr/lib/systemd/system/grub-btrfsd.service</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#sudo vim /usr/lib/systemd/system/grub-btrfsd.service</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#配合timeshift的快照</span>
 </span></span><span style="display:flex;"><span>sudo pacman -S inotify-tools <span style="color:#75715e">#安装依赖</span>

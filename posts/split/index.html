@@ -66,7 +66,7 @@ cat bacup.tar.gz.* | tar -xzvf -
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.158.0">
   <meta itemprop="name" content="Split">
   <meta itemprop="description" content="split 用于分割文件的命令，可以将大文件拆分为多个小文件，常用于分卷压缩、日志切割或网络传输。 #按文件大小分割文件 split -b 100M large_file.iso split_file_ #生成文件split_file_aa split_file_ab ... split -b 500M -d -a 2 big_data.bin data_part_.part #生成文data_part_00.part #按行数分割文件 split -l 1000 access.log split_log_ #合并分割文件 cat split_file_* &gt; merged_file.iso cat data_part_*.part &gt; restored_data.bin #结合tar分卷压缩 tar -czvf - my_dir/ | split -b 500m - backup.tar.gz. cat bacup.tar.gz.* | tar -xzvf -">
   <meta itemprop="datePublished" content="2025-07-23T23:45:21+08:00">
@@ -163,12 +163,13 @@ cat bacup.tar.gz.* | tar -xzvf -
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5">Split</h1><div class="text-xs antialiased opacity-60"><time>Jul 23, 2025</time></div></header>
+    <h1 class="my-0! pb-2.5">Split</h1><div class="text-xs antialiased opacity-60"><time>Jul 23, 2025</time><span class="mx-1">&middot;</span>
+      <span>Tongxu</span></div></header>
 
   <section><ul>
 <li>split 用于分割文件的命令，可以将大文件拆分为多个小文件，常用于分卷压缩、日志切割或网络传输。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#按文件大小分割文件</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#按文件大小分割文件</span>
 </span></span><span style="display:flex;"><span>split -b 100M large_file.iso split_file_ <span style="color:#75715e">#生成文件split_file_aa split_file_ab ...</span>
 </span></span><span style="display:flex;"><span>split -b 500M -d -a <span style="color:#ae81ff">2</span> big_data.bin data_part_.part <span style="color:#75715e">#生成文data_part_00.part</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#按行数分割文件</span>

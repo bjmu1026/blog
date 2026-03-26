@@ -130,7 +130,7 @@ chattr &#43;C 目录或文件路径
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.158.0">
   <meta itemprop="name" content="btrfs">
   <meta itemprop="description" content="btrfs 准备
 安装用户空间工具 btrfs-progs 创建文件系统
@@ -257,7 +257,8 @@ COW写时复制
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     ><article>
   <header class="mb-14">
-    <h1 class="my-0! pb-2.5">btrfs</h1><div class="text-xs antialiased opacity-60"><time>Aug 11, 2025</time></div></header>
+    <h1 class="my-0! pb-2.5">btrfs</h1><div class="text-xs antialiased opacity-60"><time>Aug 11, 2025</time><span class="mx-1">&middot;</span>
+      <span>Tongxu</span></div></header>
 
   <section><h3 id="btrfs">btrfs</h3>
 <ul>
@@ -272,13 +273,13 @@ COW写时复制
 <ul>
 <li>
 <p>单设备文件系统</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkfs.btrfs -L 自定义标签 /dev/分区名
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkfs.btrfs -L 自定义标签 /dev/分区名
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#默认元数据节点大小为16kiB，数据的默认扇区大小等于系统页大小（自动检测），-n选项指定节点大小nodesize</span>
 </span></span><span style="display:flex;"><span>mkfs.btrfs -L 自定义标签 -n 32k /dev/分区名#指定元数据节点大小为32kiB
 </span></span></code></pre></div></li>
 <li>
 <p>多设备文件系统</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#-d 和 -m参数分别为数据和元数据配置RAID级别，默认情况下数据只有一份，元数据则镜像存储raid1</span>
 </span></span><span style="display:flex;"><span>mkfs.btrfs -d single -m raid1 /dev/分区1 /dev/分区2 ...
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#必须在/etc/mkinitcpio.conf中加入udev、systemd或btrfs钩子之一才能使用多设备btrfs文件系统</span>
 </span></span></code></pre></div><ul>
@@ -305,7 +306,7 @@ COW写时复制
 </li>
 <li>
 <p>使用nodatacow选项挂载子卷只会影响新建的文件，而不会影响已存在的写时复制文件。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#将目录中已存在的所有文件禁用写时复制</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#将目录中已存在的所有文件禁用写时复制</span>
 </span></span><span style="display:flex;"><span>mv /path/to/dir /path/to/dir_old 
 </span></span><span style="display:flex;"><span>mkidr /path/to/dir 
 </span></span><span style="display:flex;"><span>chattr +C /path/to/dir
@@ -316,7 +317,7 @@ COW写时复制
 <p>nodatacow会禁用压缩和数据校验和</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#禁用空文件或目录中新文件的COW特性</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#禁用空文件或目录中新文件的COW特性</span>
 </span></span><span style="display:flex;"><span>chattr +C 目录或文件路径
 </span></span></code></pre></div><ul>
 <li>对复制的影响
@@ -350,7 +351,7 @@ COW写时复制
 </li>
 <li>
 <p>为现有文件启用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#不具有持久性，其他写入操纵将应用原有压缩设置</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#不具有持久性，其他写入操纵将应用原有压缩设置</span>
 </span></span><span style="display:flex;"><span>btrfs filesystem defragment -r -v -czstd 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#持久性启用对单个文件的压缩</span>
 </span></span><span style="display:flex;"><span>chattr +C 文件
@@ -365,7 +366,7 @@ COW写时复制
 <li>每个btrfs文件系统都有一个ID=5的顶层子卷，这个子卷不能被移除或被其他子卷替代。子卷可以在文件系统中移动，可以嵌套在任意其他子卷下，但子卷ID不变。</li>
 <li>挂载文件系统时默认情况下挂载顶层子卷，除非更改默认子卷</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#必须先挂载其上层子卷才能创建子卷</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#必须先挂载其上层子卷才能创建子卷</span>
 </span></span><span style="display:flex;"><span>btrfs subvolume create 子卷父目录/子卷名称
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#以@开头知识一个常见的命名约定</span>
 </span></span><span style="display:flex;"><span>btrfs subvolume create /mnt/@sub
@@ -394,7 +395,7 @@ COW写时复制
 <li>磁盘配额，传统unix配额通过限制用户拥有的所有文件总大小来控制空间使用。</li>
 <li>btrfs采用基于子卷的配额组的机制，通过为用户创建独立子卷与配额组并限制配额组来实现。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#启用配额</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#启用配额</span>
 </span></span><span style="display:flex;"><span>btrfs quota enable 路径
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#创建/销毁配额组</span>
@@ -433,21 +434,21 @@ COW写时复制
 <li>quota rescn 能够都市圈文件系统的所有区段的元数据，据其更新各配额组的统计值</li>
 <li>手动分配和接触分配子配额组时会自动触发配额重扫描，开销太大，无法等待重扫描结束后再返回，添加&ndash;no-rescan选项避免自动触发，后面手动触发</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs quota rescan 路径
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs quota rescan 路径
 </span></span></code></pre></div></li>
 <li>
 <p>提交间隔</p>
 <ul>
 <li>将数据写入文件系统的频率由btrfs本身和系统的设置决定，btrfs默认30s检查点间隔。可以在/etc/fstab 增加commit挂载参数来修改</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>LABEL=arch64 / btrfs defaults,noatime,compress=zstd,commit=120 0 0
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>LABEL=arch64 / btrfs defaults,noatime,compress=zstd,commit=120 0 0
 </span></span></code></pre></div></li>
 <li>
 <p>简单配额</p>
 <ul>
 <li>将所有区段归属于首次分配它的子卷</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs quota -s enable 路径
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs quota -s enable 路径
 </span></span></code></pre></div></li>
 <li>
 <p>固态硬盘TRIM</p>
@@ -467,7 +468,7 @@ COW写时复制
 <ul>
 <li>创建交换文件</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs subvolume create /swap 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs subvolume create /swap 
 </span></span><span style="display:flex;"><span>btrfs filesystem mkswapfile --size 4G --uuid clear /swap/swapfile
 </span></span><span style="display:flex;"><span>swapon /swap/swapfile
 </span></span><span style="display:flex;"><span>
@@ -487,14 +488,14 @@ btrfs fielsystem df /
 <ul>
 <li>支持配置挂载参数autodefrag来实现在线的碎片整理</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs filesystem defragment -r /
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs filesystem defragment -r /
 </span></span></code></pre></div></li>
 <li>
 <p>btrfs提供对RAID自修复冗余阵列和在线数据平衡</p>
 <ul>
 <li>检修scrub 能读取文件系统中的文件和元数据，并使用校验值和RAID存储上的景象区分三并修复损坏的数据</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#手动启动一个后台文件系统的在线检查任务</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#手动启动一个后台文件系统的在线检查任务</span>
 </span></span><span style="display:flex;"><span>btrfs scrub start /
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#检查该任务的运行状态</span>
@@ -502,12 +503,12 @@ btrfs fielsystem df /
 </span></span></code></pre></div><ul>
 <li>数据平衡balance 通过分配器再次传递文件系统中的所有数据，用于在添加或删除设备时跨设备重新平衡文件系统中的数据。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs balance start --bg /
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>btrfs balance start --bg /
 </span></span><span style="display:flex;"><span>btrfs balance status /
 </span></span></code></pre></div><ul>
 <li>
 <p>快照 是和其他子卷共享数据和元数据的简单子卷</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#source为要创建快照的对象，[dest/]name 快照安放的位置</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#source为要创建快照的对象，[dest/]name 快照安放的位置</span>
 </span></span><span style="display:flex;"><span>btrfs subvolume snapshot source <span style="color:#f92672">[</span>dest/<span style="color:#f92672">]</span>name
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#-r 参数创建一个只读快照，为只读快照创建一个快照可以获得一个只读快照的可写入版本。</span>
@@ -516,7 +517,7 @@ btrfs fielsystem df /
 <p>发送和接收</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#send发送一个快照,receive接收结束后会创建对应子卷</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#send发送一个快照,receive接收结束后会创建对应子卷</span>
 </span></span><span style="display:flex;"><span>btrfs send /root_backup | btrfs receive /backup
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#--proto 2 --compressed-data 增加效率</span>
@@ -529,7 +530,7 @@ btrfs fielsystem df /
 <p>调整大小</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#扩展到最大可用大小</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#扩展到最大可用大小</span>
 </span></span><span style="display:flex;"><span>btrfs filesystem resize max /
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#扩展到特定的大小</span>
 </span></span><span style="display:flex;"><span>btrfs filesystem resize size /
@@ -545,7 +546,7 @@ btrfs fielsystem df /
 <ul>
 <li>无分区btrfs磁盘</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkfs.btrfs /dev/sdX
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkfs.btrfs /dev/sdX
 </span></span><span style="display:flex;"><span>mkfs.btrfs -f /dev/sdX
 </span></span></code></pre></div><ul>
 <li>从EXT4转换
@@ -555,7 +556,7 @@ btrfs fielsystem df /
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#转化分区</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#转化分区</span>
 </span></span><span style="display:flex;"><span>btrfs-convert /dev/partition
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#删除备份子卷 </span>
 </span></span><span style="display:flex;"><span>btrfs subvolume delete /ext2_saved
