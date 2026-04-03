@@ -93,7 +93,7 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
     href="https://bjmu1026.github.io/blog/apple-touch-icon.png"
   />
 
-  <meta name="generator" content="Hugo 0.158.0">
+  <meta name="generator" content="Hugo 0.159.1">
   <meta itemprop="name" content="btrfs-archlinux-wiki">
   <meta itemprop="description" content="创建文件系统 #单个设备系统 mkfs.btrfs -L label /dev/sda1 mkfs.btrfs -L label -n 32k /dev/sda #-n 元数据节点大小nodesie 默认16kb 最大64kb #多个设备系统 mkfs.btrfs -L label -d single -m raid1 /dev/sda1 /dev/sdb1 ... #raid0 raid1 raid10 single 写时复制CoW #禁用写时复制cow 空文件或目录中的新文件 chattr &#43;C /path/dir_or_file #cp --reflink=auto / always / never #源文件 与 目标文件都具有或都不具有&#43;C属性时，auto使用reflink,否则深拷贝，always使用reflink否则操作失败，never总是深拷贝 压缩 #支持的算法zlib lzo zstd lzo压缩级别1~9 zstd压缩级别-15~-1 1~15 #挂载compress=zstd:15/no/lzo:1/zlib #会检测数据的首个数据块压缩后大小是否减小，减小后续压缩，未减小整个文件标记为NOCOMPRESS后续都不压缩 #compress-force=zstd 则会检查每个数据块并决定是否压缩 #为现有文件启用压缩 #不会持久化，其他写入操作将应用原有的压缩设置 btrfs -v filesystem defragment -r -czstd -L1 / #持久化启用 chattr &#43;c file btrfs property set file compression zstd 子卷 #btrfs子卷是可独立挂载的posix文件树 ，主要用途是快照 #创建子卷 btrfs subvolume create /path/subvolname btrfs subvolume create /mnt/@home #列出子卷 -t 表格视图 btrfs subvolume list -t /path #删除子卷 btrfs subvolume delete /path #挂载参数 noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefrag">
   <meta itemprop="datePublished" content="2025-11-01T23:12:32+08:00">
@@ -191,7 +191,7 @@ noatime nodiratime ssd discard=async nodatacow compress=zstd commit=20 autodefra
     ><article>
   <header class="mb-14">
     <h1 class="my-0! pb-2.5">btrfs-archlinux-wiki</h1><div class="text-xs antialiased opacity-60"><time>Nov 1, 2025</time><span class="mx-1">&middot;</span>
-      <span>Tongxu</span></div></header>
+      <span>tongxu</span></div></header>
 
   <section><ul>
 <li>创建文件系统</li>
